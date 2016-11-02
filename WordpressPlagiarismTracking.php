@@ -2,13 +2,13 @@
 /*
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
-Description: 
+Description:
 Version: 0.0.2
 Author: Mystics
 Author URI:
 Plugin Type: Piklist
 License: none
-GitHub Plugin URI: afragen/github-updater
+GitHub Plugin URI: JulianKingman/WordpressPlagiarismTracking
 */
 
 add_filter( 'page_template', 'patbp_page_template' );
