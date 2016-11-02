@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description:
-Version: 0.0.2
+Version: 0.0.3
 Author: Mystics
 Author URI:
 Plugin Type: Piklist
