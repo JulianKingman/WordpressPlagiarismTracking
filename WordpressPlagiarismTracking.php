@@ -3,14 +3,14 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.4
+Version: 0.0.5
 Author: Mystics
-Author URI:
-Plugin Type: Piklist
+Author URI: https://github.com/JulianKingman
 License: none
 GitHub Plugin URI: JulianKingman/WordpressPlagiarismTracking
 GitHub Plugin URI: https://github.com/JulianKingman/WordpressPlagiarismTracking
-GitHub Branch:     master
+GitHub Branch: master
+Plugin Type: Piklist
 */
 
 // add_filter( 'page_template', 'patbp_page_template' );
@@ -102,7 +102,7 @@ function wpmystics_create_post_type() {
 		'supports' => array( 'editor', 'custom-fields', 'thumbnail','page-attributes' ),
 		'exclude_from_search' => false,
 		'capability_type' => 'post',
-		'rewrite' => array( 'slug' => 'plagiarism-cases' ),
+		// 'rewrite' => array( 'slug' => 'plagiarismcases' ),
 		)
 	);
 }
