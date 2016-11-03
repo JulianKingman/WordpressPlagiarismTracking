@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.6
+Version: 0.0.7
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
