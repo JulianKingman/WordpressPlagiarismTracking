@@ -85,7 +85,7 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      $terms = array(
          '0' => array( 'name' => 'Complex Cases','slug' => 'complex'),
          '1' => array( 'name' => 'Posted MLP works','slug' => 'posted-works'),
-         '2' => array( 'name' => 'Copied Articles and Parts of Books','copied-parts' => 'resolved–attributed-in-article'),
+         '2' => array( 'name' => 'Copied Articles and Parts of Books','copied-parts' => 'resolved–attributed-in-article')
      	);
          foreach( $terms as $term ){
              if( !term_exists( $term['name'], 'case_category' ) ){
@@ -178,7 +178,7 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
         ,'author' => __('Entered by')
       )
       ,'hide_meta_box' => array(
-        ,'author'
+        'author'
       )
       ,'status' => array(
         'open' => array(
