@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description:
-Version: 0.0.3
+Version: 0.0.4
 Author: Mystics
 Author URI:
 Plugin Type: Piklist
@@ -11,7 +11,7 @@ License: none
 GitHub Plugin URI: JulianKingman/WordpressPlagiarismTracking
 */
 
-add_filter( 'page_template', 'patbp_page_template' );
+// add_filter( 'page_template', 'patbp_page_template' );
 function patbp_page_template( $page_template )
 {
     if ( is_page( 'open-cases' ) ) {
