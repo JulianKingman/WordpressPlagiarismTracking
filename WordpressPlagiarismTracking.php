@@ -80,6 +80,7 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      return $taxonomies;
  }
 
+ // register_activation_hook( __FILE__, 'wpmystics_default_categories' );
  add_action('wp_loaded', 'wpmystics_default_categories');
  // Populate the categories when not present
  function wpmystics_default_categories()
