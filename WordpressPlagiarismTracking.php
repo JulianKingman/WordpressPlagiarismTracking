@@ -148,8 +148,8 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
       $post_types['plagiarism_case'] = array(
       'labels' => piklist('post_type_labels', 'Plagiarism Case')
       ,'title' => __('Enter a new Plagiarism Case Link')
-      ,'menu_icon' => 'dashicons-welcome-view-site'
-      ,'page_icon' => 'dashicons-welcome-view-site'
+      ,'menu_icon' => 'dashicons-shield-alt'
+      ,'page_icon' => 'dashicons-shield-alt'
       ,'supports' => array(
         'title'
         , 'editor'
