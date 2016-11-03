@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.5
+Version: 0.0.6
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -14,16 +14,56 @@ Plugin Type: Piklist
 */
 
 // add_filter( 'page_template', 'patbp_page_template' );
-function patbp_page_template( $page_template )
-{
-    if ( is_page( 'open-cases' ) ) {
-        $page_template = dirname( __FILE__ ) . '/template-open-cases.php';
-    } else if (is_page('my-cases')){
-      $page_template = dirname( __FILE__ ) . '/template-my-cases.php';
+// function patbp_page_template( $page_template )
+// {
+//     if ( is_page( 'open-cases' ) ) {
+//         $page_template = dirname( __FILE__ ) . '/template-open-cases.php';
+//     } else if (is_page('my-cases')){
+//       $page_template = dirname( __FILE__ ) . '/template-my-cases.php';
+//     }
+//     return $page_template;
+// }
+
+// ----------------------------------------------------------------------------
+// Post type templates
+// ----------------------------------------------------------------------------
+
+function wpmystics_plagiarism_case_single($template) {
+    global $post;
+    // Is this a "plagiarism_case" post?
+    if ($post->post_type == "plagiarism_case"){
+        //Your plugin path
+        $plugin_path = plugin_dir_path( __FILE__ );
+        // The name of custom post type single template
+        $template_name = 'single-plagiarism_case.php';
+        // A specific single template for my custom post type exists in theme folder? Or it also doesn't exist in my plugin?
+        if($template === get_stylesheet_directory() . '/' . $template_name
+            || !file_exists($plugin_path . $template_name)) {
+            //Then return "single.php" or "single-my-custom-post-type.php" from theme directory.
+            return $template;
+        }
+        // If not, return my plugin custom post type template.
+        return $plugin_path . $template_name;
     }
-    return $page_template;
+    //This is not my custom post type, do nothing with $template
+    return $template;
+}
+add_filter('single_template', 'wpmystics_plagiarism_case_single');
+
+function wpmystics_plagiarism_case_archive( $archive_template ) {
+     global $post;
+
+     if ( is_post_type_archive ( 'my_post_type' ) ) {
+          $archive_template = dirname( __FILE__ ) . '/post-type-template.php';
+     }
+     return $archive_template;
 }
 
+add_filter( 'archive_template', 'wpmystics_plagiarism_case_archive' ) ;
+
+// ----------------------------------------------------------------------------
+// Status taxonomy
+// ----------------------------------------------------------------------------
 
 add_action( 'init', 'wpmystics_register_taxonomy' );
 // register taxonomy to go with the custom post type
@@ -49,9 +89,9 @@ function wpmystics_register_taxonomy() {
 	) );
 }
 
-add_action ( 'init', 'check_status_type_terms' );
+add_action ( 'init', 'wpmystics_default_statuses' );
 // Populate the statuses when not present
-function check_status_type_terms(){
+function wpmystics_default_statuses(){
 
     //see if we already have populated any statuses
     $terms = get_terms ('status', array( 'hide_empty' => false ) );
@@ -73,6 +113,10 @@ function check_status_type_terms(){
     }
 
 }
+
+// ----------------------------------------------------------------------------
+// Register plagiarism_case post type
+// ----------------------------------------------------------------------------
 
 // register custom post type to work with
 add_action( 'init', 'wpmystics_create_post_type' );
