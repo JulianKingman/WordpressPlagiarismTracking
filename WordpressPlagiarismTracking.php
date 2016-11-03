@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.9
+Version: 0.0.10
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -51,7 +51,7 @@ function wpmystics_plagiarism_case_archive( $archive_template ) {
 add_filter( 'archive_template', 'wpmystics_plagiarism_case_archive' ) ;
 
 // ----------------------------------------------------------------------------
-// Status taxonomy
+// Category taxonomy
 // ----------------------------------------------------------------------------
 
 
@@ -78,14 +78,27 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
  // Populate the categories when not present
  function wpmystics_default_categories(){
 
-    //  see if we already have populated any statuses
+    //  see if we already have populated any categories
      $terms = get_terms ('case_category', array( 'hide_empty' => false ) );
-    //  if no terms then lets add the statuses
+    //  if no terms then lets add the categories
      if( empty( $terms ) ){
      $terms = array(
-         '0' => array( 'name' => 'Complex Cases','slug' => 'complex'),
-         '1' => array( 'name' => 'Posted MLP works','slug' => 'posted-works'),
-         '2' => array( 'name' => 'Copied Articles and Parts of Books','copied-parts' => 'resolved–attributed-in-article')
+         array( 'name' => 'Complex Cases','slug' => 'complex'),
+         array( 'name' => 'Books that resemble MLP\'s works','slug' => 'resembles-mlp-works', 'parent'=>get_term_by('slug', 'complex', 'case_category')),
+         array( 'name' => 'Courses that resemble Belsebuub\'s work','slug' => 'resembles-belsebuub-works', 'parent'=>get_term_by('slug', 'complex', 'case_category')),
+         array( 'name' => 'Other copying that resembles MLP\'s works','slug' => 'resembles-other', 'parent'=>get_term_by('slug', 'complex', 'case_category')),
+         array( 'name' => 'Posted MLP works','slug' => 'posted-works'),
+         array( 'name' => 'eBook(s) posted','slug' => 'posted-ebook', 'parent'=>get_term_by('slug', 'posted-works', 'case_category')),
+         array( 'name' => 'Not readily available eBook pdfs posted','slug' => 'posted-ebook-404', 'parent'=>get_term_by('slug', 'posted-works', 'case_category')),
+         array( 'name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent'=>get_term_by('slug', 'posted-works', 'case_category')),
+         array( 'name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent'=>get_term_by('slug', 'posted-works', 'case_category')),
+         array( 'name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'),
+         array( 'name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
+         array( 'name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
+         array( 'name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
+         array( 'name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
+         array( 'name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
+         array( 'name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent'=>get_term_by('slug', 'copied-parts', 'case_category')),
      	);
          foreach( $terms as $term ){
              if( !term_exists( $term['name'], 'case_category' ) ){
@@ -95,55 +108,6 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      }
 
  }
-
-// add_action( 'init', 'wpmystics_register_taxonomy' );
-// register taxonomy to go with the custom post type
-// function wpmystics_register_taxonomy() {
-	// set up labels
-// 	$labels = array(
-// 		'name'              => 'Case Statuses',
-// 		'singular_name'     => 'Case Status',
-// 		'search_items'      => 'Search Case Statuses',
-// 		'all_items'         => 'All Case Statuses',
-// 		'edit_item'         => 'Edit Case Status',
-// 		'update_item'       => 'Update Case Status',
-// 		'add_new_item'      => 'Add New Case Status',
-// 		'new_item_name'     => 'New Case Status',
-// 		'menu_name'         => 'Case Statuses'
-// 	);
-// 	// register taxonomy
-// 	register_taxonomy( 'status', 'plagiarism_case', array(
-// 		'hierarchical' => true,
-// 		'labels' => $labels,
-// 		'query_var' => true,
-// 		'show_admin_column' => true
-// 	) );
-// }
-
-// add_action ( 'init', 'wpmystics_default_statuses' );
-// Populate the statuses when not present
-// function wpmystics_default_statuses(){
-
-    //see if we already have populated any statuses
-    // $terms = get_terms ('status', array( 'hide_empty' => false ) );
-
-    //if no terms then lets add the statuses
-    // if( empty( $terms ) ){
-    // $terms = array(
-    //     '0' => array( 'name' => 'Open','slug' => 'open'),
-    //     '1' => array( 'name' => 'In Progress','slug' => 'in-progress'),
-    //     '2' => array( 'name' => 'Resolved – attributed in article','slug' => 'resolved–attributed-in-article'),
-    //     '3' => array( 'name' => 'Resolved – attributed via comment','slug' => 'resolved–attributed-via-comment'),
-    //     '4' => array( 'name' => 'Contacted nothing happened','slug' => 'contacted-nothing-happened'),
-    // 	);
-    //     foreach( $terms as $term ){
-    //         if( !term_exists( $term['name'], 'status' ) ){
-    //             wp_insert_term( $term['name'], 'status', array( 'slug' => $term['slug'] ) );
-    //         }
-    //     }
-    // }
-
-// }
 
 // ----------------------------------------------------------------------------
 // Register plagiarism_case post type
@@ -199,6 +163,9 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
         ,'resolved' => array(
           'label' => 'Resolved'
           ,'public' => true
+        )
+        ,'resolved-comment' =>array(
+          'label'=>'Resolved - attributed via comment'
         )
       )
     );
