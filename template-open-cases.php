@@ -7,7 +7,11 @@
 
 <?php get_header(); ?>
 
-<?php while (have_posts()) : the_post(); ?>
+<?php
+$loop = new WP_Query( array(
+  'post_type' => 'plagiarism_case'
+);
+while (have_posts()) : the_post(); ?>
 
   <?php if($post->post_content=="") : ?>
 

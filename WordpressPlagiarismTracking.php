@@ -50,7 +50,7 @@ function wpmystics_register_taxonomy() {
 add_action ( 'init', 'check_status_type_terms' );
 // Populate the statuses when not present
 function check_status_type_terms(){
-   
+
     //see if we already have populated any statuses
     $terms = get_terms ('status', array( 'hide_empty' => false ) );
 
@@ -87,12 +87,13 @@ function wpmystics_create_post_type() {
     	'view_item' => 'View Plagiarism case',
     	'search_items' => 'Search Plagiarism cases',
     	'not_found' =>  'No Plagiarism cases Found',
-    	'not_found_in_trash' => 'No Plagiarism cases found in Trash', 
+    	'not_found_in_trash' => 'No Plagiarism cases found in Trash',
     	'parent_item_colon' => '',
     	'menu_name' => 'Plagiarism Cases',
     );
     //register post type
-	register_post_type( 'plagiarism-cases', array(
+    //note that hyphens aren't allowed in post type, also renamed to singular
+	register_post_type( 'plagiarism_case', array(
 		'labels' => $labels,
 		'has_archive' => true,
  		'public' => true,
