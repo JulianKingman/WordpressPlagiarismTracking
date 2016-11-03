@@ -54,54 +54,96 @@ add_filter( 'archive_template', 'wpmystics_plagiarism_case_archive' ) ;
 // Status taxonomy
 // ----------------------------------------------------------------------------
 
-add_action( 'init', 'wpmystics_register_taxonomy' );
-// register taxonomy to go with the custom post type
-function wpmystics_register_taxonomy() {
-	// set up labels
-	$labels = array(
-		'name'              => 'Case Statuses',
-		'singular_name'     => 'Case Status',
-		'search_items'      => 'Search Case Statuses',
-		'all_items'         => 'All Case Statuses',
-		'edit_item'         => 'Edit Case Status',
-		'update_item'       => 'Update Case Status',
-		'add_new_item'      => 'Add New Case Status',
-		'new_item_name'     => 'New Case Status',
-		'menu_name'         => 'Case Statuses'
-	);
-	// register taxonomy
-	register_taxonomy( 'status', 'plagiarism_case', array(
-		'hierarchical' => true,
-		'labels' => $labels,
-		'query_var' => true,
-		'show_admin_column' => true
-	) );
-}
 
-add_action ( 'init', 'wpmystics_default_statuses' );
+add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
+ function wpmystics_register_taxonomy($taxonomies) {
+    $taxonomies[] = array(
+       'post_type' => 'plagiarism_case'
+       ,'name' => 'case_category'
+       ,'show_admin_column' => true
+       ,'configuration' => array(
+         'hierarchical' => true
+         ,'labels' => piklist('taxonomy_labels', 'Case Category')
+         ,'hide_meta_box' => true
+         ,'show_ui' => true
+         ,'query_var' => true
+         ,'rewrite' => array(
+           'slug' => 'case-category'
+         )
+       )
+     );
+   return $taxonomies;
+ }
+ add_action ( 'init', 'wpmystics_default_categories' );
+ // Populate the categories when not present
+ function wpmystics_default_categories(){
+
+    //  see if we already have populated any statuses
+     $terms = get_terms ('case_category', array( 'hide_empty' => false ) );
+    //  if no terms then lets add the statuses
+     if( empty( $terms ) ){
+     $terms = array(
+         '0' => array( 'name' => 'Complex Cases','slug' => 'complex'),
+         '1' => array( 'name' => 'Posted MLP works','slug' => 'posted-works'),
+         '2' => array( 'name' => 'Copied Articles and Parts of Books','copied-parts' => 'resolved–attributed-in-article'),
+     	);
+         foreach( $terms as $term ){
+             if( !term_exists( $term['name'], 'case_category' ) ){
+                 wp_insert_term( $term['name'], 'case_category', array( 'slug' => $term['slug'] ) );
+             }
+         }
+     }
+
+ }
+
+// add_action( 'init', 'wpmystics_register_taxonomy' );
+// register taxonomy to go with the custom post type
+// function wpmystics_register_taxonomy() {
+	// set up labels
+// 	$labels = array(
+// 		'name'              => 'Case Statuses',
+// 		'singular_name'     => 'Case Status',
+// 		'search_items'      => 'Search Case Statuses',
+// 		'all_items'         => 'All Case Statuses',
+// 		'edit_item'         => 'Edit Case Status',
+// 		'update_item'       => 'Update Case Status',
+// 		'add_new_item'      => 'Add New Case Status',
+// 		'new_item_name'     => 'New Case Status',
+// 		'menu_name'         => 'Case Statuses'
+// 	);
+// 	// register taxonomy
+// 	register_taxonomy( 'status', 'plagiarism_case', array(
+// 		'hierarchical' => true,
+// 		'labels' => $labels,
+// 		'query_var' => true,
+// 		'show_admin_column' => true
+// 	) );
+// }
+
+// add_action ( 'init', 'wpmystics_default_statuses' );
 // Populate the statuses when not present
-function wpmystics_default_statuses(){
+// function wpmystics_default_statuses(){
 
     //see if we already have populated any statuses
-    $terms = get_terms ('status', array( 'hide_empty' => false ) );
+    // $terms = get_terms ('status', array( 'hide_empty' => false ) );
 
     //if no terms then lets add the statuses
-    if( empty( $terms ) ){
-    $terms = array(
-        '0' => array( 'name' => 'Open','slug' => 'open'),
-        '1' => array( 'name' => 'In Progress','slug' => 'in-progress'),
-        '2' => array( 'name' => 'Resolved – attributed in article','slug' => 'resolved–attributed-in-article'),
-        '3' => array( 'name' => 'Resolved – attributed via comment','slug' => 'resolved–attributed-via-comment'),
-        '4' => array( 'name' => 'Contacted nothing happened','slug' => 'contacted-nothing-happened'),
-    	);
-        foreach( $terms as $term ){
-            if( !term_exists( $term['name'], 'status' ) ){
-                wp_insert_term( $term['name'], 'status', array( 'slug' => $term['slug'] ) );
-            }
-        }
-    }
+    // if( empty( $terms ) ){
+    // $terms = array(
+    //     '0' => array( 'name' => 'Open','slug' => 'open'),
+    //     '1' => array( 'name' => 'In Progress','slug' => 'in-progress'),
+    //     '2' => array( 'name' => 'Resolved – attributed in article','slug' => 'resolved–attributed-in-article'),
+    //     '3' => array( 'name' => 'Resolved – attributed via comment','slug' => 'resolved–attributed-via-comment'),
+    //     '4' => array( 'name' => 'Contacted nothing happened','slug' => 'contacted-nothing-happened'),
+    // 	);
+    //     foreach( $terms as $term ){
+    //         if( !term_exists( $term['name'], 'status' ) ){
+    //             wp_insert_term( $term['name'], 'status', array( 'slug' => $term['slug'] ) );
+    //         }
+    //     }
+    // }
 
-}
+// }
 
 // ----------------------------------------------------------------------------
 // Register plagiarism_case post type
