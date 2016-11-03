@@ -41,7 +41,7 @@ function wpmystics_register_taxonomy() {
 		'menu_name'         => 'Case Statuses'
 	);
 	// register taxonomy
-	register_taxonomy( 'status', 'plagiarism-cases', array(
+	register_taxonomy( 'status', 'plagiarism_case', array(
 		'hierarchical' => true,
 		'labels' => $labels,
 		'query_var' => true,
