@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.11
+Version: 0.0.12
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -90,22 +90,22 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
     //  if no terms then lets add the categories
      if (empty($terms)) {
          $terms = array(
-         ['name' => 'Complex Cases','slug' => 'complex'],
-         ['name' => 'Books that resemble MLP\'s works','slug' => 'resembles-mlp-works', 'parent' => get_term_by('slug', 'complex', 'case_category')],
-         ['name' => 'Courses that resemble Belsebuub\'s work','slug' => 'resembles-belsebuub-works', 'parent' => get_term_by('slug', 'complex', 'case_category')],
-         ['name' => 'Other copying that resembles MLP\'s works','slug' => 'resembles-other', 'parent' => get_term_by('slug', 'complex', 'case_category')],
-         ['name' => 'Posted MLP works','slug' => 'posted-works'],
-         ['name' => 'eBook(s) posted','slug' => 'posted-ebook', 'parent' => get_term_by('slug', 'posted-works', 'case_category')],
-         ['name' => 'Not readily available eBook pdfs posted','slug' => 'posted-ebook-404', 'parent' => get_term_by('slug', 'posted-works', 'case_category')],
-         ['name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent' => get_term_by('slug', 'posted-works', 'case_category')],
-         ['name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent' => get_term_by('slug', 'posted-works', 'case_category')],
-         ['name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'],
-         ['name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
-         ['name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
-         ['name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
-         ['name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
-         ['name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
-         ['name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')],
+         array('name' => 'Complex Cases','slug' => 'complex'),
+         array('name' => 'Books that resemble MLP\'s works','slug' => 'resembles-mlp-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+         array('name' => 'Courses that resemble Belsebuub\'s work','slug' => 'resembles-belsebuub-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+         array('name' => 'Other copying that resembles MLP\'s works','slug' => 'resembles-other', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+         array('name' => 'Posted MLP works','slug' => 'posted-works'),
+         array('name' => 'eBook(s) posted','slug' => 'posted-ebook', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+         array('name' => 'Not readily available eBook pdfs posted','slug' => 'posted-ebook-404', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+         array('name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+         array('name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+         array('name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'),
+         array('name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+         array('name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+         array('name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+         array('name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+         array('name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+         array('name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
          );
          foreach ($terms as $term) {
              if (!term_exists($term['name'], 'case_category')) {
