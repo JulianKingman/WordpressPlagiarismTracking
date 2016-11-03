@@ -2,7 +2,7 @@
 /*
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
-Description:
+Description: A simple issue tracker for tracking and following up on plagiarism
 Version: 0.0.4
 Author: Mystics
 Author URI:
