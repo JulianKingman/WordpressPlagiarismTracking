@@ -80,7 +80,7 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      return $taxonomies;
  }
 
- add_action('plugins_loaded', 'wpmystics_default_categories');
+ add_action('wp_loaded', 'wpmystics_default_categories');
  // Populate the categories when not present
  function wpmystics_default_categories()
  {
@@ -91,32 +91,49 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      if (empty($terms)) {
          $terms = array(
          array('name' => 'Complex Cases','slug' => 'complex'),
-         array('name' => 'Books that resemble MLP\'s works','slug' => 'resembles-mlp-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
-         array('name' => 'Courses that resemble Belsebuub\'s work','slug' => 'resembles-belsebuub-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
-         array('name' => 'Other copying that resembles MLP\'s works','slug' => 'resembles-other', 'parent' => get_term_by('slug', 'complex', 'case_category')),
          array('name' => 'Posted MLP works','slug' => 'posted-works'),
-         array('name' => 'eBook(s) posted','slug' => 'posted-ebook', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
-         array('name' => 'Not readily available eBook pdfs posted','slug' => 'posted-ebook-404', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
-         array('name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
-         array('name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
          array('name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'),
-         array('name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-         array('name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-         array('name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-         array('name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-         array('name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-         array('name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
          );
+        //  var_dump($terms);
          foreach ($terms as $term) {
+             //  print($term['name'] & term_exists($term['name'], 'case_category'));
              if (!term_exists($term['name'], 'case_category')) {
-                 wp_insert_term($term['name'],'case_category',
+                 wp_insert_term($term['name'], 'case_category',
                  array(
                    'slug' => $term['slug'],
-                   'parent' => $term['parent'] ? $term['parent'] : '',
                  )
                );
              }
          }
+         unset($term);
+         $child_terms = array(
+           array('name' => 'Books that resemble MLP\'s works','slug' => 'resembles-mlp-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+           array('name' => 'Courses that resemble Belsebuub\'s work','slug' => 'resembles-belsebuub-works', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+           array('name' => 'Other copying that resembles MLP\'s works','slug' => 'resembles-other', 'parent' => get_term_by('slug', 'complex', 'case_category')),
+           array('name' => 'eBook(s) posted','slug' => 'posted-ebook', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+           array('name' => 'Not readily available eBook pdfs posted','slug' => 'posted-ebook-404', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+           array('name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+           array('name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
+           array('name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+       );
+         foreach ($child_terms as $term) {
+             //  print($term['name'] & term_exists($term['name'], 'case_category'));
+             var_dump();
+             if (!term_exists($term['name'], 'case_category')) {
+                 wp_insert_term($term['name'], 'case_category',
+                 array(
+                   'slug' => $term['slug'],
+                   'parent' => $term['parent']->term_id,
+                 )
+               );
+             }
+         }
+         unset($term);
      }
  }
 
