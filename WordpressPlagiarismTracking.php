@@ -9,6 +9,8 @@ Author URI:
 Plugin Type: Piklist
 License: none
 GitHub Plugin URI: JulianKingman/WordpressPlagiarismTracking
+GitHub Plugin URI: https://github.com/JulianKingman/WordpressPlagiarismTracking
+GitHub Branch:     master
 */
 
 // add_filter( 'page_template', 'patbp_page_template' );
