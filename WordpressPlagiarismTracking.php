@@ -13,17 +13,6 @@ GitHub Branch: master
 Plugin Type: Piklist
 */
 
-// add_filter( 'page_template', 'patbp_page_template' );
-// function patbp_page_template( $page_template )
-// {
-//     if ( is_page( 'open-cases' ) ) {
-//         $page_template = dirname( __FILE__ ) . '/template-open-cases.php';
-//     } else if (is_page('my-cases')){
-//       $page_template = dirname( __FILE__ ) . '/template-my-cases.php';
-//     }
-//     return $page_template;
-// }
-
 // ----------------------------------------------------------------------------
 // Post type templates
 // ----------------------------------------------------------------------------
@@ -118,38 +107,61 @@ function wpmystics_default_statuses(){
 // Register plagiarism_case post type
 // ----------------------------------------------------------------------------
 
-// register custom post type to work with
-add_action( 'init', 'wpmystics_create_post_type' );
-function wpmystics_create_post_type() {
-	// set up labels
-	$labels = array(
- 		'name' => 'Plagiarism Cases',
-    	'singular_name' => 'Plagiarism case',
-    	'add_new' => 'Add New Plagiarism case',
-    	'add_new_item' => 'Add New Plagiarism case',
-    	'edit_item' => 'Edit Plagiarism case',
-    	'new_item' => 'New Plagiarism case',
-    	'all_items' => 'All Plagiarism cases',
-    	'view_item' => 'View Plagiarism case',
-    	'search_items' => 'Search Plagiarism cases',
-    	'not_found' =>  'No Plagiarism cases Found',
-    	'not_found_in_trash' => 'No Plagiarism cases found in Trash',
-    	'parent_item_colon' => '',
-    	'menu_name' => 'Plagiarism Cases',
+add_filter('piklist_post_types', 'wpmystics_create_post_type');
+  function wpmystics_create_post_type($post_types)
+  {
+    $post_types['plagiarism_case'] = array(
+      'labels' => piklist('post_type_labels', 'Plagiarism Case')
+      ,'title' => __('Enter a new Plagiarism Case Link')
+      ,'menu_icon' => 'dashicons-welcome-view-site'
+      ,'page_icon' => 'dashicons-welcome-view-site'
+      ,'supports' => array(
+        'title'
+        , 'editor'
+        , 'custom-fields'
+        , 'thumbnail'
+        , 'page-attributes'
+      )
+      ,'public' => true
+      ,'admin_body_class' => array(
+        // 'custom-body-class'
+      )
+      ,'has_archive' => true
+      ,'rewrite' => array(
+        'slug' => 'plagiarism-case'
+      )
+      ,'capability_type' => 'post'
+      ,'edit_columns' => array(
+        'title' => __('Link')
+        ,'author' => __('Entered by')
+      )
+      ,'hide_meta_box' => array(
+        ,'author'
+      )
+      ,'status' => array(
+        'open' => array(
+          'label' => 'Open'
+          ,'public' => true
+        )
+        ,'in_progress' => array(
+          'label' => 'In Progress'
+          ,'public' => true
+        )
+        ,'contacted' => array(
+          'label' => 'Contacted nothing happened'
+          ,'public' => true
+          // ,'exclude_from_search' => true
+          // ,'show_in_admin_all_list' => true
+          // ,'show_in_admin_status_list' => true
+       )
+        ,'resolved' => array(
+          'label' => 'Resolved'
+          ,'public' => true
+        )
+      )
     );
-    //register post type
-    //note that hyphens aren't allowed in post type, also renamed to singular
-	register_post_type( 'plagiarism_case', array(
-		'labels' => $labels,
-		'has_archive' => true,
- 		'public' => true,
-		'supports' => array( 'editor', 'custom-fields', 'thumbnail','page-attributes' ),
-		'exclude_from_search' => false,
-		'capability_type' => 'post',
-		// 'rewrite' => array( 'slug' => 'plagiarismcases' ),
-		)
-	);
-}
+    return $post_types;
+  }
 
 
 ?>
