@@ -95,7 +95,7 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
          array('name' => 'Posted MLP works','slug' => 'posted-works'),
          array('name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'),
          );
-        //  var_dump($terms);
+        //  var_dump($terms); // for some reason this crashes the admin page
          foreach ($terms as $term) {
              //  print($term['name'] & term_exists($term['name'], 'case_category'));
              if (!term_exists($term['name'], 'case_category')) {
