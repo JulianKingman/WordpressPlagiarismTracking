@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.0.12
+Version: 0.0.13
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -14,9 +14,20 @@ Plugin Type: Piklist
 */
 
 // ----------------------------------------------------------------------------
-// Post type templates
+// Set specific page templates
 // ----------------------------------------------------------------------------
 
+add_filter('page_template', 'wpmystics_open_cases');
+function wpmystics_open_cases ( $page_template ){
+	if ( is_page( 'open-cases' ) ){
+		$page_template = dirname( __FILE__ ) . '/template-open-cases.php';
+	}
+	return $page_template;
+}
+
+// ----------------------------------------------------------------------------
+// Post type templates
+// ----------------------------------------------------------------------------
 function wpmystics_plagiarism_case_single($template)
 {
     global $post;
@@ -95,7 +106,7 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
          array('name' => 'Posted MLP works','slug' => 'posted-works'),
          array('name' => 'Copied Articles and Parts of Books','slug' => 'copied-parts'),
          );
-        //  var_dump($terms);
+        //  var_dump($terms); // for some reason this crashes the admin page
          foreach ($terms as $term) {
              //  print($term['name'] & term_exists($term['name'], 'case_category'));
              if (!term_exists($term['name'], 'case_category')) {

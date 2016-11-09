@@ -4,88 +4,72 @@
  * Template Name: Open Plagiarism Cases
  */
 ?>
+<style>
+.box {
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #222223;
+  display: inline-block;
+  background-color: #d1d3d6;
+}
+.box:hover {
+  background-color: #e8e8e8;
+}
+ul {
+    list-style-type: disc !important;
+}
+li {
+    margin-left: 20px;
+}
 
-<?php get_header(); ?>
+</style>
+
+
 
 <?php
-$loop = new WP_Query( array(
-  'post_type' => 'plagiarism_case'
-);
-while (have_posts()) : the_post(); ?>
+    get_header();
 
-  <?php if($post->post_content=="") : ?>
+$args = array( 'post_type' => 'plagiarism_case');
+ 
+// Variable to call WP_Query.
+$the_query = new WP_Query( $args );
+ 
+if ( $the_query->have_posts() ) :
+    // Start the Loop
+    while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+        <div class="box">
+        <br> Status: <?php echo get_post_status( $post->ID ); ?>
+        <br> Post ID: <?php print($post->ID); ?>
+        <br> <?php echo get_the_date(); ?>, <?php the_time(); ?>
+        <br> Title: <?php the_title(); ?>
+        <br> Exceprt <?php the_excerpt(); ?>
+        <br> Publisher: <?php the_author(); ?>
+        <br> Category: <br><ul><?php
+            $cats = get_the_terms( $post->ID, 'case_category');
+            if ($cats == false) echo '<ul><li>none</li></ul>';
+            foreach($cats as $cat) {
+                echo '<li>' . $cat->name . '</li>';
+            }
+           // $category_detail=get_the_category( $post->ID );//$post->ID
+          //  var_dump($category_detail);
+          //  foreach($category_detail as $cd){
+         //   echo $cd->cat_name;
+        //    }
 
-<?php else : ?>
-  <div id="wrapper">
-      <div class="container pt">
-      <div class="row">
-        <div class="col-sm-12">
-          <!-- from plugin -->
-        <header>
-          <h3><?php the_title(); ?></h3>
-        </header>
-           <?php the_content(); ?>
-           <?php
-              // ...Call the database connection settings
-              //print('before require');
-              include( '../../../wp-config.php' );
-              //print('after require');
-              // ...Connect to WP database
-              $dbc = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-              if ( !$dbc ) {
-                  die( 'Not Connected: ' . mysql_error());
-              }
-              // Select the database
-              $db = mysql_select_db(DB_NAME);
-              if (!$db) {
-                  echo "There is no database: " . $db;
-              }
+        //wp_get_post_categories( get_the_ID() );
+            ?>
+            </ul>
+        <br> Meta data: <?php the_meta(); ?>
+        <br> <?php the_shortlink('click to view'); ?>
+        </div>
+<?php     // End the Loop
+    endwhile; 
+    wp_reset_postdata();
+else :
+    // If no posts match this query, output this text.
+    _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
+endif;
 
-              //print('before the query<br>');
-              $query = "SELECT wpmlp_posts.post_date, wpmlp_posts.ID, wpmlp_posts.post_type, wpmlp_postmeta.meta_key, wpmlp_postmeta.meta_value
-                  FROM wpmlp_postmeta
-                  INNER JOIN wpmlp_posts ON
-                      wpmlp_postmeta.post_id = wpmlp_posts.ID
-                      AND wpmlp_posts.ID in (SELECT wpmlp_posts.ID
-                                FROM wpmlp_postmeta
-                                INNER JOIN wpmlp_posts ON
-                                    wpmlp_postmeta.post_id = wpmlp_posts.ID
-                                    AND wpmlp_posts.post_type = 'plagiarism'
-                                    AND wpmlp_postmeta.meta_key = 'status'
-                                    AND wpmlp_postmeta.meta_value = 'unassigned')";
-              $result = mysql_query($query);
+    get_footer(); 
+?>
 
-              //echo "<table>"; // start a table tag in the HTML
-
-              while($data = mysql_fetch_array($result)){   //Loop through array results
-              print('<p>row<br>');
-              print_r($data);
-              print('</p>');
-              //echo "<tr><td>" . $data['name'] . "</td><td>" . $data['age'] . "</td></tr>";  //$row['index'] the index here is a field name
-              }
-
-              //echo "</table>"; //Close the table in HTML
-
-              mysql_close(); //Make sure to close out the database connection
-           ?>
-
-
-
-        </div><!-- /col-sm-12 -->
-      </div><!-- /row -->
-      </div> <!-- /container -->
-  </div><!-- /ww -->
-
-<?php endif; ?>
-
-<?php wp_reset_postdata(); ?>
-
-<?php endwhile; ?>
-
-
-
-
-
-
-
-<?php get_footer(); ?>
