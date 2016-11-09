@@ -5,47 +5,75 @@
  */
 ?>
 <?php
-    function archive_meta_query( $query ) {
+function filter_by_assigned_user( $query ) {
         if ( $query->is_archive){
-          $query->query_vars["meta_key"] = 'owner';
-          $query->query_vars["meta_value"] = 'rscheffers';
+          $query->query_vars["meta_key"] = 'assigned_user';
+          $query->query_vars["meta_value"] = '1';
         }
     }
-//add_action( 'pre_get_posts', 'archive_meta_query', 1 );
+add_action( 'pre_get_posts', 'filter_by_assigned_user', 1 );
 
-add_action( 'pre_get_posts', 'custom_post_type_archive' );
-
-function custom_post_type_archive( $query ) {
-
-if( $query->is_main_query() && !is_admin() && is_post_type_archive( 'plagiarism_case' ) ) {
-
-        $query->set( 'posts_per_page', '6' );
-        $query->set( 'post_status', 'in_progress');
-        //$query->set( 'orderby', 'title' );
-        //        $query->set( 'order', 'DESC' );
+/*function filter_by_post_status( $query ) {
+        if ( $query->is_archive){
+          $query->query_vars["meta_key"] = 'assigned_user';
+          $query->query_vars["meta_value"] = '1';
+        }
     }
+*/
+//add_action( 'pre_get_posts', 'filter_by_post_status', 1 );
 
-}
+function filter_by_post_category( $query ) {
+        if ( $query->is_archive){
+          $query->query_vars["term_id"] = '1 to 3 Paragraphs copied';
+         // $query->query_vars["meta_value"] = '1';
+        }
+    }
+add_action( 'pre_get_posts', 'filter_by_post_category', 1 );
+/*
+function filter_by_post_author( $query ) {
+        if ( $query->is_archive){
+          $query->query_vars["meta_key"] = 'assigned_user';
+          $query->query_vars["meta_value"] = '1';
+        }
+    }
+*/
+//add_action( 'pre_get_posts', 'filter_by_post_author', 1 );
+
+
 
 ?>
 
 <?php
     get_header();
-/* -- Use for displaying open tickets
-$status = 'open'
-$args = array( 'post_type' => 'plagiarism_case',
-                'post_status' => $status);
-*/
-// -- Use for displaying open tickets
-$status = 'open';
-$args = array( 'post_type' => 'plagiarism_case',
-                'post_status' => $status);
+
+// -- use args to filter different types of plagiarism cases
+$args = array( 'post_type' => 'plagiarism_case' );
+//$args['post_author'] = $_GET['author'];
+//$args['post_status'] = $_GET['status'];
+//$args['post_type'] = $_GET['cat'];
+
+//echo get_post_terms
+
+//$args.push( 'post_category') => $_GET['cat'] );
+//$_GET['owner']
+//$_GET['author']
 
 
 // Variable to call WP_Query.
 $the_query = new WP_Query( $args );
 //$the_query = new WP_Query( );
 if ( $the_query->have_posts() ) :
+    // experiment with $_GET
+    if ( !empty($_GET) ){
+        echo $_GET['cat'] . '<br>';             // post_ID, terms & term_relationships
+        echo $_GET['status'] . '<br>';          // post
+        echo $_GET['owner'] . '<br>';           // postmeta
+        echo $_GET['author'] . '<br>';          // post
+    } else {
+        echo 'get not specified';
+    }
+
+    echo '<br>';
     // Start the Loop
     while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
         <div class="wpt-wrapper">
