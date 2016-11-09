@@ -25,6 +25,15 @@ function wpmystics_open_cases ( $page_template ){
 	return $page_template;
 }
 
+add_filter('page_template', 'wpmystics_owner_cases');
+function wpmystics_owner_cases ( $page_template ){
+  if ( is_page( 'my-assigned-plagiarism-cases' ) ){
+    $page_template = dirname( __FILE__ ) . '/archive-plagiarism_case.php';
+  }
+  return $page_template;
+}
+
+
 // ----------------------------------------------------------------------------
 // Post type templates
 // ----------------------------------------------------------------------------
