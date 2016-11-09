@@ -48,7 +48,7 @@ $the_query = new WP_Query( $args );
 if ( $the_query->have_posts() ) :
     // Start the Loop
     while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-        <div class="wpt-box">
+        <div class="wpt-wrapper">
         Status: <?php echo get_post_status( $post->ID ); ?>
         <br> Post ID: <?php print($post->ID); ?>
         <br> <?php echo get_the_date(); ?>, <?php the_time(); ?>

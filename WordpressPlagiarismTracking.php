@@ -17,10 +17,14 @@ Plugin Type: Piklist
 // Enque style
 // ----------------------------------------------------------------------------
 function wpmystics_enqueue_scripts() {
-    wp_enqueue_style( 'style-name', plugin_dir_path(__FILE__) . 'style.css' );
-    wp_enqueue_script( 'script-name', plugin_dir_path(__FILE__) . '/scripts.js', array(), '1.0.0', true );
+    wp_register_style( 'prefix-style', plugins_url('style.css', __FILE__) );
+    wp_enqueue_style( 'prefix-style' );
+
+    wp_register_script( 'script-name', plugin_dir_path(__FILE__) . '/scripts.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'script-name' );
+
 }
-add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
+add_action( 'wp_enqueue_scripts', 'wpmystics_enqueue_scripts' );
 
 
 // ----------------------------------------------------------------------------
