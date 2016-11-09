@@ -4,25 +4,6 @@
  * Template Name: Open Plagiarism Cases
  */
 ?>
-<style>
-.box {
-  padding: 10px 20px;
-  margin: 20px;
-  border: 1px solid #222223;
-  display: inline-block;
-  background-color: #d1d3d6;
-}
-.box:hover {
-  background-color: #e8e8e8;
-}
-ul {
-    list-style-type: disc !important;
-}
-li {
-    margin-left: 20px;
-}
-
-</style>
 <?php
     function archive_meta_query( $query ) {
         if ( $query->is_archive){
@@ -63,11 +44,11 @@ $args = array( 'post_type' => 'plagiarism_case',
 
 // Variable to call WP_Query.
 $the_query = new WP_Query( $args );
-//$the_query = new WP_Query( ); 
+//$the_query = new WP_Query( );
 if ( $the_query->have_posts() ) :
     // Start the Loop
     while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-        <div class="box">
+        <div class="wpt-box">
         Status: <?php echo get_post_status( $post->ID ); ?>
         <br> Post ID: <?php print($post->ID); ?>
         <br> <?php echo get_the_date(); ?>, <?php the_time(); ?>
@@ -93,13 +74,12 @@ if ( $the_query->have_posts() ) :
         <br> <?php the_shortlink('click to view'); ?>
         </div>
 <?php     // End the Loop
-    endwhile; 
+    endwhile;
     wp_reset_postdata();
 else :
     // If no posts match this query, output this text.
     _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
 endif;
 
-    get_footer(); 
+    get_footer();
 ?>
-
