@@ -14,6 +14,16 @@ Plugin Type: Piklist
 */
 
 // ----------------------------------------------------------------------------
+// Enque style
+// ----------------------------------------------------------------------------
+function wpmystics_enqueue_scripts() {
+    wp_enqueue_style( 'style-name', plugin_dir_path(__FILE__) . 'style.css' );
+    wp_enqueue_script( 'script-name', plugin_dir_path(__FILE__) . '/scripts.js', array(), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
+
+
+// ----------------------------------------------------------------------------
 // Set specific page templates
 // ----------------------------------------------------------------------------
 
