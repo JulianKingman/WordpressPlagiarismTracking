@@ -14,3 +14,13 @@
 .wpt-wrapper li {
     margin-left: 20px;
 }
+
+.wordpressplagiarismtracking-search-case-widget{
+	border: 1px solid #B1BCC4;
+	padding: 0px 10px;
+}
+
+.case-search select,
+.case-search input {
+	width: 100% !important;
+}

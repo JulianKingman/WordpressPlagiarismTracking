@@ -6,7 +6,9 @@ Message: Search successfully
 Logged in: true
 */
 
-// echo get_post_stati( $args, $output, $operator );
+// ------------------------------------------------------- \\
+//                Prepare data
+// ------------------------------------------------------- \\
 
  $parents = get_terms(array(
  'taxonomy' => 'case_category'
@@ -14,9 +16,9 @@ Logged in: true
  ,'parent' => 0
  ));
 
-$case_statuses = array( '' => 'Search by Status' );
+$case_cats = array( '' => 'Search by Status' );
 foreach ($parents as $parent => $value) {
-  $case_statuses = array_merge( $case_statuses, array( $value->term_id => $value->name ) );
+  $case_cats = array_merge( $case_cats, array( $value->term_id => $value->name ) );
   $sub_options = piklist(
      get_terms('case_category', array(
        'hide_empty' => false
@@ -25,8 +27,12 @@ foreach ($parents as $parent => $value) {
        'term_id','name'
      )
      );
-  $case_statuses = array_merge( $case_statuses, $sub_options );
+  $case_cats = array_merge( $case_cats, $sub_options );
 }
+
+// ------------------------------------------------------- \\
+//                  The form
+// ------------------------------------------------------- \\
 
   // Where to save this form, post ID
   piklist('field', array(
@@ -36,14 +42,41 @@ foreach ($parents as $parent => $value) {
     ,'value' => 'plagiarism_case'
   ));
 
+
+//link
+  piklist('field', array(
+    'type' => 'text'
+    ,'scope' => 'post' // post_title is in the wp_posts
+    ,'field' => 'copied_link'
+    ,'attributes' => array(
+      'wrapper_class' => 'case-search',
+      'placeholder' => 'Link'
+    )
+
+  ));
+
+// status
+  piklist('field', array(
+    'type' => 'select',
+    'scope' => 'post_term', // unsure
+    'field' => 'status',      // unsure
+    'attributes' => array(
+      'wrapper_class' => 'case-search',
+    ),
+    'choices' => array( '' => 'Status',
+      '1' => 'Still needs data feed'
+    )
+  ));
+
+// category
   piklist('field', array(
     'type' => 'select'
-    ,'scope' => 'post' // post_status is in the wp_posts
-    ,'field' => 'post_status'
+    ,'scope' => 'post_term' // post_status is in the wp_posts
+    ,'field' => 'category'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
-    'choices' => $case_statuses
+    'choices' => $case_cats
   ));
 
 piklist('field', array(
@@ -54,7 +87,7 @@ piklist('field', array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Seach by Assigned User'
+     '' => 'Assigned User'
    )
    + piklist(
     get_users(
@@ -71,6 +104,7 @@ piklist('field', array(
    )
 ));
 
+// Author
   piklist('field', array(
     'type' => 'select'
     ,'scope' => 'post' // post_status is in the wp_posts
@@ -79,7 +113,7 @@ piklist('field', array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Seach by Author'
+     '' => 'Author'
    )
    + piklist(
     get_users(
@@ -94,4 +128,14 @@ piklist('field', array(
       ,'display_name'
     )
    )
+));
+
+// Search button
+piklist('field', array(
+  'type' => 'submit',
+  'field' => 'submit',
+  'value' => 'Search',
+  'attributes' => array(
+    'wrapper_class' => 'case-search',
+  )
 ));
