@@ -1,7 +1,7 @@
 <?php
 /*
 Title: Search Case Form
-Method: post
+Method: get
 Message: Search successfully
 Logged in: true
 */

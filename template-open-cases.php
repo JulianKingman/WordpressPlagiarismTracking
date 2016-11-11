@@ -68,7 +68,9 @@ $the_query = new WP_Query( $args );
 if ( $the_query->have_posts() ) :
     // experiment with $_GET
     if ( !empty($_GET) ){
-        echo $_GET['cat'] . '<br>';             // post_ID, terms & term_relationships
+        var_dump($_GET);
+        echo $_GET['copied_link'] . '<br>';  
+        echo $_GET['category'] . '<br>';             // post_ID, terms & term_relationships
         echo $_GET['status'] . '<br>';          // post
         echo $_GET['owner'] . '<br>';           // postmeta
         echo $_GET['author'] . '<br>';          // post
@@ -77,6 +79,14 @@ if ( $the_query->have_posts() ) :
     }
 
     echo '<br>';
+    // temp div for showing the results
+    ?>
+    
+    <div class="search_results">div results</div>
+
+    <?php
+
+
     // Start the Loop
     while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
         <div class="wpt-wrapper">
