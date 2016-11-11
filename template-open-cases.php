@@ -38,14 +38,17 @@ function filter_by_post_author( $query ) {
     }
 */
 //add_action( 'pre_get_posts', 'filter_by_post_author', 1 );
-
-
-
 ?>
 
+<?php get_header(); ?>
+  <div id="wrapper">
+      <div class="container pt">
+      <div class="row">
+        <div class="col-sm-9">
+        <header>
+          <h3><?php the_title(); ?></h3>
+        </header>
 <?php
-    get_header();
-
 // -- use args to filter different types of plagiarism cases
 $args = array( 'post_type' => 'plagiarism_case' );
 //$args['post_author'] = $_GET['author'];
@@ -108,6 +111,17 @@ else :
     // If no posts match this query, output this text.
     _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
 endif;
-
-    get_footer();
 ?>
+
+        </div>
+        <?php if ( is_active_sidebar('right-sidebar') ) { ?>
+        <div class="col-sm-3">
+                <?php dynamic_sidebar('right-sidebar'); ?>
+        </div>
+        <?php } ?>
+        
+      </div><!-- /row -->
+      </div> <!-- /container -->
+  </div><!-- /ww -->
+
+<?php get_footer(); ?>
