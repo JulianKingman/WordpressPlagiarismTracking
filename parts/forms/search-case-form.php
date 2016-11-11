@@ -6,17 +6,21 @@ Message: Search successfully
 Logged in: true
 */
 
+// load plagiarism_case statuses from the plugin file
+global $cpt_statuses;
+
 // ------------------------------------------------------- \\
 //                Prepare data
 // ------------------------------------------------------- \\
 
- $parents = get_terms(array(
- 'taxonomy' => 'case_category'
- ,'hide_empty' => false
- ,'parent' => 0
- ));
+$case_cats = array();
 
-$case_cats = array( '' => 'Search by Status' );
+$parents = get_terms(array(
+  'taxonomy' => 'case_category'
+  ,'hide_empty' => false
+  ,'parent' => 0
+));
+
 foreach ($parents as $parent => $value) {
   $case_cats = array_merge( $case_cats, array( $value->term_id => $value->name ) );
   $sub_options = piklist(
@@ -26,7 +30,7 @@ foreach ($parents as $parent => $value) {
      )), array(
        'term_id','name'
      )
-     );
+  );
   $case_cats = array_merge( $case_cats, $sub_options );
 }
 
@@ -63,9 +67,7 @@ foreach ($parents as $parent => $value) {
     'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
-    'choices' => array( '' => 'Status',
-      '1' => 'Still needs data feed'
-    )
+    'choices' => array_merge( array('' => 'Status'), $cpt_statuses)
   ));
 
 // category
@@ -76,7 +78,7 @@ foreach ($parents as $parent => $value) {
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
-    'choices' => $case_cats
+    'choices' => array_merge( array( '' => 'Category' ), $case_cats )
   ));
 
 piklist('field', array(
