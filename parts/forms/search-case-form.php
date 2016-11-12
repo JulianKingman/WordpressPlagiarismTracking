@@ -121,6 +121,6 @@ piklist('field', array(
   'field' => 'submit',
   'value' => 'Search',
   'attributes' => array(
-    'wrapper_class' => 'case-search',
+    'class' => 'wpt-search-submit',
   )
 ));
