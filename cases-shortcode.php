@@ -2,127 +2,110 @@
 // Add Shortcode
 function cases_shortcode() {
 
+  $user_table = piklist(get_users(
+    array(
+      'orderby' => 'display_name'
+      ,'order' => 'asc'
+    )
+    ,'objects'
+  )
+  ,array('ID' ,'display_name')
+  );
 
-//echo '<br>Only the _post part below: <br>';
-echo 'link: ' . $_GET['link'];
-echo '<br>status: ' . $_GET['status'];
-echo '<br>category: ' . $_GET['category'];
-echo '<br>owner: ' . $_GET['owner'];
-echo '<br>submitter: ' . $_GET['submitter'];
+  $link = $_GET['link'];
+  $status = $_GET['status'];
+  $cat_id = $_GET['category'];
+  $owner_id = $_GET['owner'];
+  $submitter_id = $_GET['submitter'];
 
+  $owner_name = $user_table[$owner_id];
+  $submitter_name = $user_table[$submitter_id];
+  ?>
 
-  // function filter_by_post_category( $query ) {
-  //   if ( $query->is_archive){
-  //     $query->query_vars["term_id"] = '1 to 3 Paragraphs copied';
-      // $query->query_vars["meta_value"] = '1';
-  //   }
-  // }
-  // add_action( 'pre_get_posts', 'filter_by_post_category', 1 );
+  Search options:
+  <br>link: <?php echo $link; ?>
+  <br>status: <?php echo $status; ?>
+  <br>category: <?php echo $cat_id; ?>
+  <br>owner: <?php echo $owner_name; ?>
+  <br>submitter: <?php echo $submitter_name; ?><br>
 
-  /*
-  function filter_by_post_author( $query ) {
-  if ( $query->is_archive){
-  $query->query_vars["meta_key"] = 'assigned_user';
-  $query->query_vars["meta_value"] = '1';
-}
-}
-*/
-//add_action( 'pre_get_posts', 'filter_by_post_author', 1 );
-// -- use args to filter different types of plagiarism cases
-$args = array( 'post_type' => 'plagiarism_case' );
-//$args['post_author'] = $_GET['author'];
-//$args['post_status'] = $_GET['status'];
-//$args['post_type'] = $_GET['cat'];
+  <?php
+  // -- query arguments
+  $args = array( 'post_type'    => 'plagiarism_case' ,      // only show post plagiarism_case data
+                 'orderby'      => 'date', 
+                 'order'        => 'ASC',                   // sort on date, olders to newest
+                 'title'        => $link,                   // optional filter for links
+                 'post_status'  => $status,                 // optional filter for status
+                 'meta_key'     => 'assigned_user',         // optional filter: Owner
+                 'meta_value'   => $owner_id,               // owner value
+                 'author'       => $submitter_id,            // optional filter for submitter
+                 //'tax_query'    => array(array(
+                                    //'taxonomy' => 'case_category',
+                                    //'field'    => 'term_id',
+                                    //'terms'    => $cat_id
+                                  //))
+  );
 
-//echo get_post_terms
+  // Variable to call WP_Query.
+  $the_query = new WP_Query( $args );
+  //$the_query = new WP_Query( );
+  if ( $the_query->have_posts() ) :
 
-//$args.push( 'post_category') => $_GET['cat'] );
-//$_GET['owner']
-//$_GET['author']
-$filter_options = "<br>
-   Owner: rscheffers<br>
-   Category: 1-4 paragraphs<br>";
-?>
-
-<div class="wpt-case-filters">
-  filters applied: <?php echo $filter_options; ?>
-</div>
-<?php
-
-
-// Variable to call WP_Query.
-$the_query = new WP_Query( $args );
-//$the_query = new WP_Query( );
-if ( $the_query->have_posts() ) :
-// experiment with $_GET
-// if ( !empty($_GET) ){
-//   echo $_GET['cat'] . '<br>';             // post_ID, terms & term_relationships
-//   echo $_GET['status'] . '<br>';          // post
-//   echo $_GET['owner'] . '<br>';           // postmeta
-//   echo $_GET['author'] . '<br>';          // post
-// } else {
-//   echo 'get not specified';
-// }
-// Start the Loop
-?>
-<table class="plagiarism-cases-table">
-<tr>
-  <th>Status</th>
-  <th>Owner</th>  
-  <th>Category</th>
-  <th>Links</th>
-  <th>Date</th> 
-  <th>Submitter</th>
-  <th>Go</th>
-</tr>
-<?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-  <tr>  
-    <!-- Status -->
-    <td><?php echo get_post_status( $post->ID ); ?></td>
-
-    <!-- Owner -->    
-    <td><?php echo get_post_meta(get_the_ID(), 'assigned_user', true) ?></td>
-
-    <!-- Category -->
-    <td><?php
-      $cats = get_the_terms( $post->ID, 'case_category');
-      if ($cats == false) echo '<ul><li>none</li></ul>';
-      foreach($cats as $cat) {
-        echo $cat->name . ', ';
-      }
-    ?></td>
-
-    <!-- Links, copied and original -->
-    <td>
-      COPIED: <?php the_title(); ?><br>
-      ORIGINAL: <?php echo get_post_meta(get_the_ID(), 'original', true) ?>
-    </td>
-    
-    <!-- Date -->
-    <td><?php echo get_the_date('M j, Y'); ?> @ <?php the_time(); ?></td>
-
-    <!-- Author -->
-    <td><?php the_author(); ?></td>
-    <td><?php the_shortlink('view'); ?></td>
+  // Start the Loop
+  ?>
+  <table class="plagiarism-cases-table">
+  <tr>
+    <th>ID</th>
+    <th>Status</th>
+    <th>Owner</th>  
+    <th>Category</th>
+    <th>Links</th>
+    <th>Date</th> 
+    <th>Submitter</th>
+    <th>Go</th>
   </tr>
-  <!-- // $category_detail=get_the_category( $post->ID );//$post->ID
-  //  var_dump($category_detail);
-  //  foreach($category_detail as $cd){
-  //   echo $cd->cat_name;
-  //    }
+  <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+    <tr>  
+      <td><?php echo get_the_ID() ?></td>
+      <!-- Status -->
+      <td><?php echo get_post_status( $post->ID ); ?></td>
 
-  //wp_get_post_categories( get_the_ID() );
-  ?> -->
-<?php     // End the Loop
-endwhile;
-wp_reset_postdata();
-else :
-// If no posts match this query, output this text.
-_e( 'Sorry, no posts matched your criteria.', 'textdomain' );
-endif;
-?>
-</table>
-<?php
+      <!-- Owner -->    
+      <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
+
+      <!-- Category -->
+      <td><?php
+        $cats = get_the_terms( $post->ID, 'case_category');
+        if ($cats == false) echo '<ul><li>none</li></ul>';
+        foreach($cats as $cat) {
+          echo $cat->name . ', ';
+        }
+      ?></td>
+
+      <!-- Links, copied and original -->
+      <td>
+        COPIED: <?php the_title(); ?><br>
+        ORIGINAL: <?php echo get_post_meta(get_the_ID(), 'original', true) ?>
+      </td>
+      
+      <!-- Date -->
+      <td><?php echo get_the_date('M j, Y'); ?> @ <?php the_time(); ?></td>
+
+      <!-- Author -->
+      <td><?php the_author(); ?></td>
+      <td><?php the_shortlink('view'); ?></td>
+    </tr>
+
+  <?php     // End the Loop
+  endwhile;
+  wp_reset_postdata();
+  else :
+  // If no posts match this query, output this text.
+  _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
+  endif;
+  ?>
+  </table>
+  <?php
 }
 add_shortcode( 'plagiarism_cases', 'cases_shortcode' );
 ?>

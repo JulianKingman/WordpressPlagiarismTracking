@@ -117,7 +117,7 @@ piklist('field', array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Submmitter'
+     '' => 'Submitter'
    )
    + piklist(
     get_users(
