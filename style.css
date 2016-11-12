@@ -15,7 +15,8 @@
     margin-left: 20px;
 }
 
-.wordpressplagiarismtracking-search-case-widget{
+.wordpressplagiarismtracking-search-case-widget,
+#wordpressplagiarismtracking_quick_insert_form {
 	border: 1px solid #B1BCC4;
 	padding: 0px 10px;
 }

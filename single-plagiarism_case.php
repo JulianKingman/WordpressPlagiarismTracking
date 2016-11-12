@@ -79,12 +79,7 @@
             <td><?php the_content(); ?></td>
           </tr>
         </table>
-        <?php
-          // If comments are open or we have at least one comment, load up the comment template.
-          if ( comments_open() || get_comments_number() ) :
-            comments_template();
-          endif;
-        ?>
+        <?php comments_template( ); ?>
       </div><!-- /col-sm-12 -->
     </div><!-- /row -->
     </div> <!-- /container -->
