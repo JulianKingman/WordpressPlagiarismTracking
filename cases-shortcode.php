@@ -20,16 +20,16 @@ function cases_shortcode() {
 
   $owner_name = $user_table[$owner_id];
   $submitter_name = $user_table[$submitter_id];
-  ?>
-  <!--for debugging only
-    Search options:
-    <br>link: <?php //echo $link; ?>
-    <br>status: <?php //echo $status; ?>
-    <br>category: <?php //echo $cat_id; ?>
-    <br>owner: <?php //echo $owner_name; ?>
-    <br>submitter: <?php //echo $submitter_name; ?><br>
-  -->
-  <?php
+?>
+<!--for debugging only
+  Search options:
+  <br>link: <?php //echo $link; ?>
+  <br>status: <?php //echo $status; ?>
+  <br>category: <?php //echo $cat_id; ?>
+  <br>owner: <?php //echo $owner_name; ?>
+  <br>submitter: <?php //echo $submitter_name; ?><br>
+-->
+<?php
   // -- query arguments
   $args = array( 'post_type'    => 'plagiarism_case' ,      // only show post plagiarism_case data
                  'orderby'      => 'date', 
@@ -40,7 +40,7 @@ function cases_shortcode() {
                  'meta_value'   => $owner_id,               // owner value
                  'author'       => $submitter_id,            // optional filter for submitter
   );
-  if ( $cat_id !== NULL ){
+  if ( $cat_id != '' ){
             $args['tax_query']  =  array(array(
                                     'taxonomy' => 'case_category',
                                     'field'    => 'term_id',
@@ -48,24 +48,13 @@ function cases_shortcode() {
                                    ));
   };
 
-
-/*
-
-                 'tax_query'    => array(array(
-                                    'taxonomy' => 'case_category',
-                                    'field'    => 'term_id',
-                                    'terms'    => $cat_id
-                                  ))
-
-*/
-
   // Variable to call WP_Query.
   $the_query = new WP_Query( $args );
   //$the_query = new WP_Query( );
   if ( $the_query->have_posts() ) :
 
   // Start the Loop
-  ?>
+?>
   <table class="plagiarism-cases-table">
   <tr>
     <th>ID</th>
