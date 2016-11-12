@@ -2,8 +2,8 @@
 
 jQuery(document).ready(function($){
 	console.log('script loaded');
-  
-  $("#submit").click(function(e){
+
+  $("#submit.case-search").click(function(e){
   	console.log('submit clicked');
     e.preventDefault();
     $.ajax({type: "GET",
