@@ -21,14 +21,14 @@ function cases_shortcode() {
   $owner_name = $user_table[$owner_id];
   $submitter_name = $user_table[$submitter_id];
   ?>
-
-  Search options:
-  <br>link: <?php echo $link; ?>
-  <br>status: <?php echo $status; ?>
-  <br>category: <?php echo $cat_id; ?>
-  <br>owner: <?php echo $owner_name; ?>
-  <br>submitter: <?php echo $submitter_name; ?><br>
-
+  <!--for debugging only
+    Search options:
+    <br>link: <?php //echo $link; ?>
+    <br>status: <?php //echo $status; ?>
+    <br>category: <?php //echo $cat_id; ?>
+    <br>owner: <?php //echo $owner_name; ?>
+    <br>submitter: <?php //echo $submitter_name; ?><br>
+  -->
   <?php
   // -- query arguments
   $args = array( 'post_type'    => 'plagiarism_case' ,      // only show post plagiarism_case data
@@ -39,12 +39,25 @@ function cases_shortcode() {
                  'meta_key'     => 'assigned_user',         // optional filter: Owner
                  'meta_value'   => $owner_id,               // owner value
                  'author'       => $submitter_id,            // optional filter for submitter
-                 //'tax_query'    => array(array(
-                                    //'taxonomy' => 'case_category',
-                                    //'field'    => 'term_id',
-                                    //'terms'    => $cat_id
-                                  //))
   );
+  if ( $cat_id !== NULL ){
+            $args['tax_query']  =  array(array(
+                                    'taxonomy' => 'case_category',
+                                    'field'    => 'term_id',
+                                    'terms'    => $cat_id
+                                   ));
+  };
+
+
+/*
+
+                 'tax_query'    => array(array(
+                                    'taxonomy' => 'case_category',
+                                    'field'    => 'term_id',
+                                    'terms'    => $cat_id
+                                  ))
+
+*/
 
   // Variable to call WP_Query.
   $the_query = new WP_Query( $args );

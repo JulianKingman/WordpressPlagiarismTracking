@@ -14,6 +14,7 @@ global $cpt_statuses;
 //                Prepare data
 // ------------------------------------------------------- \\
 
+/*
 $case_cats = array();
 
 $parents = get_terms(array(
@@ -34,6 +35,7 @@ foreach ($parents as $parent => $value) {
   );
   $case_cats = array_merge( $case_cats, $sub_options );
 }
+*/
 
 // ------------------------------------------------------- \\
 //                  The form
@@ -80,7 +82,13 @@ foreach ($parents as $parent => $value) {
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
-    'choices' => array_merge( array( '' => 'Category' ), $case_cats )
+    'choices' => array( '' => 'Category' )
+      + piklist(get_terms(
+        array(
+          'taxonomy' => 'case_category',
+          'hide_empty' => false,
+        )
+    ),array( 'term_id', 'name' ) )
   ));
 
 piklist('field', array(
