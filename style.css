@@ -17,8 +17,9 @@
 
 .wordpressplagiarismtracking-search-case-widget,
 #wordpressplagiarismtracking_quick_insert_form {
-	border: 1px solid #B1BCC4;
-	padding: 0px 10px;
+  /*the theme should do this*/
+	/*border: 1px solid #B1BCC4;
+	padding: 5px 10px;*/
 }
 
 .case-search select,
@@ -42,4 +43,18 @@
 
 .first-row-single-case{
   width: 7.5em;
+}
+
+/*quick insert form styling*/
+
+#wordpressplagiarismtracking_quick_insert_form .piklist-field-list label {
+    border-bottom: 1px dashed #ccc;
+    padding: 10px 0;
+}
+
+#wordpressplagiarismtracking_quick_insert_form .piklist-field-list label input {
+  width: 15px;
+  height: 15px;
+  margin-right: 15px;
+  float: left;
 }
