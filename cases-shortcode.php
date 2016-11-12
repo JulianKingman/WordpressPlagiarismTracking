@@ -76,13 +76,14 @@ function cases_shortcode() {
       <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
 
       <!-- Category -->
-      <td><?php
-        $cats = get_the_terms( $post->ID, 'case_category');
-        if ($cats == false) echo '<ul><li>none</li></ul>';
-        foreach($cats as $cat) {
-          echo $cat->name . ', ';
-        }
-      ?></td>
+      <td><?php $cats = get_the_terms( $post->ID, 'case_category'); ?>
+        <ul>
+          <?php if ($cats == false) echo '<li>none</li>';
+          foreach($cats as $cat) {
+            echo '<li>' . $cat->name . '</li>';
+          } ?>
+        </ul>
+      </td>
 
       <!-- Links, copied and original -->
       <td>
