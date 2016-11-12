@@ -1,4 +1,11 @@
 <?php get_header(); ?>
+
+  <div id="wrapper">
+      <div class="container pt">
+      <div class="row">
+        <div class="col-sm-9">
+
+
 <?php
   $user_table = piklist(get_users(
     array(
@@ -18,64 +25,63 @@
   <div id="wrapper">
       <div class="container pt">
       <div class="row">
-        <div class="col-sm-12">
-
+        <div class="col-sm-9">
+        <header>
+          <h3>Plagiarism case <?php echo get_the_ID() ?></h3>
+        </header>
+          
           <table class="plagiarism-single-case">
           <tr>
-            <td>ID</td>
-            <td><?php echo get_the_ID() ?></td>
+            <td class='first-row-single-case'>Copied link</td>
+            <td><?php
+              $cl = get_the_title( get_the_ID() ); 
+              printf('<a href="http://%s" target="_blank">%s</a>', $cl, $cl);
+            ?></td>
           </tr>
 
           <tr>
-            <td>Copied link</td>
-            <td><?php the_title(); ?></td>
+            <td class='first-row-single-case'>Original link</td>
+            <td><?php 
+              $ol = get_post_meta(get_the_ID(), 'original', true);
+              printf('<a href="http://%s" target="_blank">%s</a>', $ol, $ol);
+            ?></td>
           </tr>
 
           <tr>
-            <td>Original link</td>
-            <td><?php echo get_post_meta(get_the_ID(), 'original', true) ?></td>
+            <td class='first-row-single-case'>Date posted</td>
+            <td><?php echo get_the_date(); ?> @ <?php the_time(); ?></td>
           </tr>
 
           <tr>
-            <td>Copied link:</td>
-            <td></td>
-          </tr>
-
-          <tr>
-            <td>Date posted</td>
-            <td><?php echo get_the_date('M j, Y'); ?> @ <?php the_time(); ?></td>
-          </tr>
-
-          <tr>
-            <td>Status</td>
+            <td class='first-row-single-case'>Status</td>
             <td><?php echo get_post_status( $post->ID ); ?></td>
           </tr>
 
           <tr>
-            <td>Owner</td>
+            <td class='first-row-single-case'>Owner</td>
             <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
           </tr>
 
           <tr>
-            <td>Category</td>
-            <td>
+            <td class='first-row-single-case'>Category</td>
+            <td><ul>
               <?php
                 $cats = get_the_terms( $post->ID, 'case_category');
-                if ($cats == false) echo '<ul><li>none</li></ul>';
+                if ($cats == false) echo '<li>none</li>';
                 foreach($cats as $cat) {
-                  echo $cat->name . ', ';
+                  echo '<li>' . $cat->name . '</li>';
                 }
               ?>
-            </td>
+            </ul></td>
           </tr>
 
           <tr>
-            <td>Submitter</td>
+            <td class='first-row-single-case'>Submitter</td>
             <td><?php the_author(); ?></td>
           </tr>
 
           <tr>
-            <td>Description</td>
+            <td class='first-row-single-case'>Description</td>
             <td><?php the_content(); ?></td>
           </tr>
         </table>
@@ -90,5 +96,17 @@
 <?php wp_reset_postdata(); ?>
 
 <?php endwhile; ?>
+
+
+        </div>
+        <?php if ( is_active_sidebar('right-sidebar') ) { ?>
+        <div class="col-sm-3">
+              <?php dynamic_sidebar('right-sidebar'); ?>
+        </div>
+        <?php } ?>
+        
+      </div><!-- /row -->
+      </div> <!-- /container -->
+  </div><!-- /ww -->
 
 <?php get_footer(); ?>

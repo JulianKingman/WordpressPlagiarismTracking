@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.1.0
+Version: 0.1.2
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -33,7 +33,7 @@ add_action( 'wp_enqueue_scripts', 'wpmystics_enqueue_scripts' );
 // ----------------------------------------------------------------------------
 // Set specific page templates
 // ----------------------------------------------------------------------------
-
+/*
 add_filter('page_template', 'wpmystics_open_cases');
 function wpmystics_open_cases ( $page_template ){
 	if ( is_page( 'open-cases' ) ){
@@ -49,11 +49,11 @@ function wpmystics_owner_cases ( $page_template ){
   }
   return $page_template;
 }
+*/
 
 // ----------------------------------------------------------------------------
-// Allow comments on plagiarism single case pages
+// By default allow comments on plagiarism single case pages
 // ----------------------------------------------------------------------------
-
 add_action('init', 'add_cpt_comment_support', 100);
 
 function add_cpt_comment_support(){
@@ -99,6 +99,7 @@ function wpmystics_plagiarism_case_archive($archive_template)
 }
 
 add_filter('archive_template', 'wpmystics_plagiarism_case_archive');
+
 
 // ----------------------------------------------------------------------------
 // Category taxonomy
@@ -163,10 +164,10 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
            array('name' => 'Old Course PDFs posted','slug' => 'posted-course-pdf', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
            array('name' => 'Audio and Video','slug' => 'posted-multimedia', 'parent' => get_term_by('slug', 'posted-works', 'case_category')),
            array('name' => '1 to 3 Paragraphs copied','slug' => '3-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-           array('name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-           array('name' => '4 + Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-           array('name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
-           array('name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           //array('name' => 'Contacted Nothing Happened','slug' => 'contacted-nothing-happened', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           array('name' => '4+ Paragraphs copied','slug' => '4-plus-paragraphs', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           //array('name' => 'Resolved – 1 to 3 Paragraphs','slug' => '3-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
+           //array('name' => 'Resolved – 4 + paragraphs','slug' => '4-plus-paragraphs-resolved', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
            array('name' => 'Articles on Waking Times reposted – attribution not ideal','slug' => 'attribution-not-ideal', 'parent' => get_term_by('slug', 'copied-parts', 'case_category')),
        );
          foreach ($child_terms as $term) {
@@ -185,9 +186,11 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
      }
  }
 
+
 // ----------------------------------------------------------------------------
 // Register plagiarism_case post type
 // ----------------------------------------------------------------------------
+
 
 add_filter('piklist_post_types', 'wpmystics_create_post_type');
   function wpmystics_create_post_type($post_types)
@@ -249,9 +252,11 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
       return $post_types;
   }
 
+
 // ----------------------------------------------------------------------------
 // custom post plagiarism_case statuses var
 // ----------------------------------------------------------------------------
+
 
 global $cpt_statuses;
 $cpt_statuses = array(
