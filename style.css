@@ -24,3 +24,9 @@
 .case-search input {
 	width: 100% !important;
 }
+
+.plagiarism-cases-table td,
+.plagiarism-cases-table th {
+  border: 1px solid #B1BCC4;
+  padding: 0px 5px;
+}

@@ -2,6 +2,15 @@
 // Add Shortcode
 function cases_shortcode() {
 
+
+//echo '<br>Only the _post part below: <br>';
+echo 'link: ' . $_GET['link'];
+echo '<br>status: ' . $_GET['status'];
+echo '<br>category: ' . $_GET['category'];
+echo '<br>owner: ' . $_GET['owner'];
+echo '<br>submitter: ' . $_GET['submitter'];
+
+
   // function filter_by_post_category( $query ) {
   //   if ( $query->is_archive){
   //     $query->query_vars["term_id"] = '1 to 3 Paragraphs copied';
@@ -30,6 +39,15 @@ $args = array( 'post_type' => 'plagiarism_case' );
 //$args.push( 'post_category') => $_GET['cat'] );
 //$_GET['owner']
 //$_GET['author']
+$filter_options = "<br>
+   Owner: rscheffers<br>
+   Category: 1-4 paragraphs<br>";
+?>
+
+<div class="wpt-case-filters">
+  filters applied: <?php echo $filter_options; ?>
+</div>
+<?php
 
 
 // Variable to call WP_Query.
@@ -47,33 +65,45 @@ if ( $the_query->have_posts() ) :
 // }
 // Start the Loop
 ?>
-<table class="">
+<table class="plagiarism-cases-table">
 <tr>
-  <th>Link</th>
   <th>Status</th>
-  <th>Source</th>
+  <th>Owner</th>  
   <th>Category</th>
-  <th>Date</th>
-  <th>Assigned</th>
-  <th>Author</th>
+  <th>Links</th>
+  <th>Date</th> 
+  <th>Submitter</th>
   <th>Go</th>
 </tr>
 <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-  <tr>
-    <td><?php the_title(); ?></td>
+  <tr>  
+    <!-- Status -->
     <td><?php echo get_post_status( $post->ID ); ?></td>
-    <td><?php echo get_post_meta(get_the_ID(), 'original', true) ?></td>
-    <td><?php echo get_the_date(); ?></td>
+
+    <!-- Owner -->    
+    <td><?php echo get_post_meta(get_the_ID(), 'assigned_user', true) ?></td>
+
+    <!-- Category -->
     <td><?php
-    $cats = get_the_terms( $post->ID, 'case_category');
-    if ($cats == false) echo '<ul><li>none</li></ul>';
-    foreach($cats as $cat) {
-      echo $cat->name . ', ';
-    }
+      $cats = get_the_terms( $post->ID, 'case_category');
+      if ($cats == false) echo '<ul><li>none</li></ul>';
+      foreach($cats as $cat) {
+        echo $cat->name . ', ';
+      }
     ?></td>
-    <td>Assigned</td>
+
+    <!-- Links, copied and original -->
+    <td>
+      COPIED: <?php the_title(); ?><br>
+      ORIGINAL: <?php echo get_post_meta(get_the_ID(), 'original', true) ?>
+    </td>
+    
+    <!-- Date -->
+    <td><?php echo get_the_date('M j, Y'); ?> @ <?php the_time(); ?></td>
+
+    <!-- Author -->
     <td><?php the_author(); ?></td>
-    <td><?php the_shortlink('click to view'); ?></td>
+    <td><?php the_shortlink('view'); ?></td>
   </tr>
   <!-- // $category_detail=get_the_category( $post->ID );//$post->ID
   //  var_dump($category_detail);

@@ -1,12 +1,14 @@
 <?php
 
   piklist('field', array(
-    'type' => 'text'
-    ,'field' => 'text_class_small'
-    ,'label' => __('Text', 'WordpressPlagiarismTracking')
+    'type' => 'select'
+    ,'field' => 'shortcode-page'
+    ,'label' => __('Display results on', 'WordpressPlagiarismTracking')
     ,'value' => 'Lorem'
-    ,'help' => __('You can easily add tooltips to your fields with the help parameter.', 'WordpressPlagiarismTracking')
-    ,'attributes' => array(
-      'class' => 'regular-text'
+    ,'help' => __('Add shortcode [plagiarism_cases] to page', 'WordpressPlagiarismTracking')
+    ,'choices' => piklist(
+      get_pages($args), array('ID','post_title')
     )
   ));
+
+?>

@@ -4,6 +4,7 @@ Title: Search Case Form
 Method: get
 Message: Search successfully
 Logged in: true
+Redirect: http://localhost/case-tracker/add-plagiarism-case/
 */
 
 // load plagiarism_case statuses from the plugin file
@@ -39,19 +40,20 @@ foreach ($parents as $parent => $value) {
 // ------------------------------------------------------- \\
 
   // Where to save this form, post ID
+/*
   piklist('field', array(
     'type' => 'hidden'
-    ,'scope' => 'post'
-    ,'field' => 'post_type'
-    ,'value' => 'plagiarism_case'
+ //   ,'scope' => 'post'
+    ,'field' => 'post_id'
+    ,'value' => '2'
   ));
-
+*/
 
 //link
   piklist('field', array(
     'type' => 'text'
-    ,'scope' => 'post' // post_title is in the wp_posts
-    ,'field' => 'copied_link'
+ //   ,'scope' => 'post' // post_title is in the wp_posts
+    ,'field' => 'link'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
       'placeholder' => 'Link'
@@ -62,7 +64,7 @@ foreach ($parents as $parent => $value) {
 // status
   piklist('field', array(
     'type' => 'select',
-    'scope' => 'post_term', // unsure
+ //   'scope' => 'post_term', // unsure
     'field' => 'status',      // unsure
     'attributes' => array(
       'wrapper_class' => 'case-search',
@@ -73,7 +75,7 @@ foreach ($parents as $parent => $value) {
 // category
   piklist('field', array(
     'type' => 'select'
-    ,'scope' => 'post_term' // post_status is in the wp_posts
+ //   ,'scope' => 'post_term' // post_status is in the wp_posts
     ,'field' => 'category'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
@@ -83,13 +85,13 @@ foreach ($parents as $parent => $value) {
 
 piklist('field', array(
   'type' => 'select',
-  'scope' => 'post_meta',
-  'field' => 'assigned_user',
+//  'scope' => 'post_meta',
+  'field' => 'owner',
   'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Assigned User'
+     '' => 'Owner'
    )
    + piklist(
     get_users(
@@ -109,13 +111,13 @@ piklist('field', array(
 // Author
   piklist('field', array(
     'type' => 'select'
-    ,'scope' => 'post' // post_status is in the wp_posts
-    ,'field' => 'post_author'
+ //   ,'scope' => 'post' // post_status is in the wp_posts
+    ,'field' => 'submitter'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Author'
+     '' => 'Submmitter'
    )
    + piklist(
     get_users(
