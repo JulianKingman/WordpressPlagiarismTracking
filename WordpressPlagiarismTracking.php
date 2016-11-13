@@ -67,8 +67,6 @@ function add_cpt_comment_support()
     add_post_type_support('plagiarism_case', 'comments');
 }
 
-<<<<<<< HEAD
-=======
 // ----------------------------------------------------------------------------
 // By default allow comments on plagiarism single case pages
 // ----------------------------------------------------------------------------
@@ -86,7 +84,6 @@ function mcw_form_redirect ( $data, $type ) {
   return $data;
 }
 
->>>>>>> d09a8bdf85c9ee4ced8afe61142cb381ddcfc124
 // ----------------------------------------------------------------------------
 // Post type templates
 // ----------------------------------------------------------------------------
