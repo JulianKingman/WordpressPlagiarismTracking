@@ -1,8 +1,13 @@
 //js goes here
 
-<<<<<<< HEAD
 jQuery(document).ready(function($) {
     console.log('script loaded');
+
+		$('.plagiarism-cases-table').DataTable( {
+	    searching: false,
+	    ordering: true,
+	    pageLength: 10,
+	  } );
 
     $(".wordpressplagiarismtracking-quick-insert-widget").submit(function(e) {
         console.log('submit clicked');
@@ -46,16 +51,6 @@ jQuery(document).ready(function($) {
         // }});
     });
 
-=======
-jQuery(document).ready(function($){
-	console.log('script loaded');
-  
-  $('.plagiarism-cases-table').DataTable( {
-    searching: false,
-    ordering: true,
-    pageLength: 10,
-  } );
->>>>>>> d09a8bdf85c9ee4ced8afe61142cb381ddcfc124
 
 });
 
