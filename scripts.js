@@ -5,7 +5,8 @@ jQuery(document).ready(function($){
   
   $('.plagiarism-cases-table').DataTable( {
     searching: false,
-    pageLength: 10
+    ordering: true,
+    pageLength: 10,
   } );
 
 });

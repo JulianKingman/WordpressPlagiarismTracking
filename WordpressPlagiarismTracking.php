@@ -63,6 +63,22 @@ function add_cpt_comment_support(){
   add_post_type_support( 'plagiarism_case', 'comments' );
 }
 
+// ----------------------------------------------------------------------------
+// By default allow comments on plagiarism single case pages
+// ----------------------------------------------------------------------------
+add_filter( 'piklist_add_part', 'mcw_form_redirect', 10, 2 );
+
+function mcw_form_redirect ( $data, $type ) {
+  // if not a form then bail
+  if ( $type != 'form' ) {
+    return $data;
+  }
+  // check if any page template is set in the comment block
+  if ( ( $data['redirect'] ) == '/plagiarism-case/' ) {
+    $data['redirect'] = home_url( '/plagiarism-case/' );
+  }
+  return $data;
+}
 
 // ----------------------------------------------------------------------------
 // Post type templates
