@@ -56,6 +56,7 @@ function cases_shortcode() {
   // Start the Loop
 ?>
   <table class="plagiarism-cases-table">
+  <thead>
   <tr>
     <th>ID</th>
     <th>Status</th>
@@ -66,8 +67,14 @@ function cases_shortcode() {
     <th>Submitter</th>
     <th>Go</th>
   </tr>
+  </thead>  
   <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+<<<<<<< HEAD
     <tr>
+=======
+  <tbody>
+    <tr>  
+>>>>>>> d09a8bdf85c9ee4ced8afe61142cb381ddcfc124
       <td><?php echo get_the_ID() ?></td>
       <!-- Status -->
       <td><?php echo get_post_status( $post->ID ); ?></td>
@@ -98,7 +105,7 @@ function cases_shortcode() {
       <td><?php the_author(); ?></td>
       <td><?php the_shortlink('view'); ?></td>
     </tr>
-
+  </tbody>
   <?php     // End the Loop
   endwhile;
   wp_reset_postdata();

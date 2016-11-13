@@ -21,16 +21,18 @@ include 'cases-shortcode.php';
 // ----------------------------------------------------------------------------
 // Enque style
 // ----------------------------------------------------------------------------
-function wpmystics_enqueue_scripts()
-{
-    wp_register_style('prefix-style', plugins_url('style.css', __FILE__));
-    wp_enqueue_style('prefix-style');
+function wpmystics_enqueue_scripts() {
+    wp_register_style( 'prefix-style', plugins_url('style.css', __FILE__) );
+    wp_register_style( 'data-tables', 'https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css');
     wp_register_script('wpmystics_scripts', plugins_url('scripts.js', __FILE__), array('jquery'));
+    wp_enqueue_style( 'prefix-style' );
+    wp_enqueue_style( 'data-tables' );
     wp_localize_script('wpmystics_scripts', 'wpm_Ajax', array(
       'ajaxurl' => admin_url('admin-ajax.php'),
       'nonce' => wp_create_nonce('unique_id_nonce'),// this is a unique token to prevent form hijacking
     ));
     wp_enqueue_script('wpmystics_scripts');
+    wp_enqueue_script( 'data-tables-js', 'https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js', array ( 'jquery'), '1.2.3', true);
 }
 add_action('wp_enqueue_scripts', 'wpmystics_enqueue_scripts');
 
@@ -65,6 +67,26 @@ function add_cpt_comment_support()
     add_post_type_support('plagiarism_case', 'comments');
 }
 
+<<<<<<< HEAD
+=======
+// ----------------------------------------------------------------------------
+// By default allow comments on plagiarism single case pages
+// ----------------------------------------------------------------------------
+add_filter( 'piklist_add_part', 'mcw_form_redirect', 10, 2 );
+
+function mcw_form_redirect ( $data, $type ) {
+  // if not a form then bail
+  if ( $type != 'form' ) {
+    return $data;
+  }
+  // check if any page template is set in the comment block
+  if ( ( $data['redirect'] ) == '/plagiarism-case/' ) {
+    $data['redirect'] = home_url( '/plagiarism-case/' );
+  }
+  return $data;
+}
+
+>>>>>>> d09a8bdf85c9ee4ced8afe61142cb381ddcfc124
 // ----------------------------------------------------------------------------
 // Post type templates
 // ----------------------------------------------------------------------------

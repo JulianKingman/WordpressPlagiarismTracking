@@ -3,8 +3,8 @@
 Title: Search Case Form
 Method: get
 Message: Search successfully
+Redirect: /plagiarism-case/
 Logged in: true
-Redirect: http://localhost/case-tracker/add-plagiarism-case/
 */
 
 // load plagiarism_case statuses from the plugin file
