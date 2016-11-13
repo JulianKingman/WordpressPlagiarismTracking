@@ -32,11 +32,11 @@ function cases_shortcode() {
 <?php
   // -- query arguments
   $args = array( 'post_type'    => 'plagiarism_case' ,      // only show post plagiarism_case data
-                 'orderby'      => 'date', 
+                 'orderby'      => 'date',
                  'order'        => 'ASC',                   // sort on date, olders to newest
+                 'meta_key'     => 'assigned_user',         // optional filter: Owner
                  'title'        => $link,                   // optional filter for links
                  'post_status'  => $status,                 // optional filter for status
-                 'meta_key'     => 'assigned_user',         // optional filter: Owner
                  'meta_value'   => $owner_id,               // owner value
                  'author'       => $submitter_id,            // optional filter for submitter
   );
@@ -59,20 +59,20 @@ function cases_shortcode() {
   <tr>
     <th>ID</th>
     <th>Status</th>
-    <th>Owner</th>  
+    <th>Owner</th>
     <th>Category</th>
     <th>Links</th>
-    <th>Date</th> 
+    <th>Date</th>
     <th>Submitter</th>
     <th>Go</th>
   </tr>
   <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-    <tr>  
+    <tr>
       <td><?php echo get_the_ID() ?></td>
       <!-- Status -->
       <td><?php echo get_post_status( $post->ID ); ?></td>
 
-      <!-- Owner -->    
+      <!-- Owner -->
       <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
 
       <!-- Category -->
@@ -90,7 +90,7 @@ function cases_shortcode() {
         COPIED: <?php the_title(); ?><br>
         ORIGINAL: <?php echo get_post_meta(get_the_ID(), 'original', true) ?>
       </td>
-      
+
       <!-- Date -->
       <td><?php echo get_the_date('M j, Y'); ?> @ <?php the_time(); ?></td>
 

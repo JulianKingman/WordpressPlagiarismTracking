@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.1.4
+Version: 0.1.5
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -21,14 +21,18 @@ include 'cases-shortcode.php';
 // ----------------------------------------------------------------------------
 // Enque style
 // ----------------------------------------------------------------------------
-function wpmystics_enqueue_scripts() {
-    wp_register_style( 'prefix-style', plugins_url('style.css', __FILE__) );
-    wp_enqueue_style( 'prefix-style' );
-
-    wp_enqueue_script( 'search-load', plugins_url('scripts.js', __FILE__), array( 'jquery' ), '0.0.1', true );
+function wpmystics_enqueue_scripts()
+{
+    wp_register_style('prefix-style', plugins_url('style.css', __FILE__));
+    wp_enqueue_style('prefix-style');
+    wp_register_script('wpmystics_scripts', plugins_url('scripts.js', __FILE__), array('jquery'));
+    wp_localize_script('wpmystics_scripts', 'wpm_Ajax', array(
+      'ajaxurl' => admin_url('admin-ajax.php'),
+      'nonce' => wp_create_nonce('unique_id_nonce'),// this is a unique token to prevent form hijacking
+    ));
+    wp_enqueue_script('wpmystics_scripts');
 }
-add_action( 'wp_enqueue_scripts', 'wpmystics_enqueue_scripts' );
-
+add_action('wp_enqueue_scripts', 'wpmystics_enqueue_scripts');
 
 // ----------------------------------------------------------------------------
 // Set specific page templates
@@ -36,10 +40,10 @@ add_action( 'wp_enqueue_scripts', 'wpmystics_enqueue_scripts' );
 /*
 add_filter('page_template', 'wpmystics_open_cases');
 function wpmystics_open_cases ( $page_template ){
-	if ( is_page( 'open-cases' ) ){
-		$page_template = dirname( __FILE__ ) . '/template-open-cases.php';
-	}
-	return $page_template;
+    if ( is_page( 'open-cases' ) ){
+        $page_template = dirname( __FILE__ ) . '/template-open-cases.php';
+    }
+    return $page_template;
 }
 
 add_filter('page_template', 'wpmystics_owner_cases');
@@ -56,10 +60,10 @@ function wpmystics_owner_cases ( $page_template ){
 // ----------------------------------------------------------------------------
 add_action('init', 'add_cpt_comment_support', 100);
 
-function add_cpt_comment_support(){
-  add_post_type_support( 'plagiarism_case', 'comments' );
+function add_cpt_comment_support()
+{
+    add_post_type_support('plagiarism_case', 'comments');
 }
-
 
 // ----------------------------------------------------------------------------
 // Post type templates
@@ -99,7 +103,6 @@ function wpmystics_plagiarism_case_archive($archive_template)
 }
 
 add_filter('archive_template', 'wpmystics_plagiarism_case_archive');
-
 
 // ----------------------------------------------------------------------------
 // Category taxonomy
@@ -190,15 +193,16 @@ add_filter('piklist_taxonomies', 'wpmystics_register_taxonomy');
 
 add_action('save_post', 'wpmystics_assign_parent_terms', 10, 2);
 
-function wpmystics_assign_parent_terms($post_id, $post){
-
-    if($post->post_type != 'plagiarism_case')
+function wpmystics_assign_parent_terms($post_id, $post)
+{
+    if ($post->post_type != 'plagiarism_case') {
         return $post_id;
+    }
 
     // get all assigned terms
-    $terms = wp_get_post_terms($post_id, 'case_category' );
-    foreach($terms as $term){
-        while($term->parent != 0 && !has_term( $term->parent, 'case_category', $post )){
+    $terms = wp_get_post_terms($post_id, 'case_category');
+    foreach ($terms as $term) {
+        while ($term->parent != 0 && !has_term($term->parent, 'case_category', $post)) {
             // move upward until we get to 0 level terms
             wp_set_post_terms($post_id, array($term->parent), 'case_category', true);
             $term = get_term($term->parent, 'case_category');
@@ -206,7 +210,47 @@ function wpmystics_assign_parent_terms($post_id, $post){
     }
 }
 
+// ----------------------------------------------------------------------------
+// Quick insert form ajax
+// ----------------------------------------------------------------------------
+//for logged out users
+// add_action('wp_ajax_nopriv_quick_insert', 'wpmystics_quick_insert');
+// for logged in users
+add_action('wp_ajax_quick_insert', 'wpmystics_quick_insert');
 
+function wpmystics_quick_insert()
+{
+    $params = array();
+    parse_str($_POST['formData'], $params);
+    // print_r($params);
+    $post_type = $params['_post']['post_type'];
+    $link = $params['_post']['post_title'];
+    $status = $params['_post']['post_status'];
+    $notes = $params['_post']['post_content'];
+    $original = $params['_post']['original'];
+    $categories = $params['_taxonomy']['case_category'];
+    // print_r(array($post_type, $link, $status, $notes, $original, $categories));
+    $post_id = wp_insert_post(
+        array(
+          post_type => $post_type,
+          post_content => $notes,
+          post_title => $link,
+          post_status => $status,
+          tax_input => array(
+            'case_category' => $categories
+          ),
+          'meta_input'   => array(
+              'original' => $original,
+              'assigned_user' => null
+          ),
+      )
+    );
+    echo get_the_permalink($post_id);
+    // clean_post_cache($post_id);
+    // add_post_meta( $post_id, 'owner', '', true );
+    // redirect_post($post_id);
+    die();
+}
 
 // ----------------------------------------------------------------------------
 // Register plagiarism_case post type
@@ -249,6 +293,10 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
           'label' => 'Open'
           ,'public' => true,
         )
+        ,'draft' => array(
+          'label' => 'Draft'
+          ,'public' => true,
+        )
         ,'in_progress' => array(
           'label' => 'In Progress'
           ,'public' => true,
@@ -273,7 +321,6 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
       return $post_types;
   }
 
-
 // ----------------------------------------------------------------------------
 // custom post plagiarism_case statuses var
 // ----------------------------------------------------------------------------
@@ -281,8 +328,8 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
 
 global $cpt_statuses;
 $cpt_statuses = array(
-  "open" => "Open",
-  "in_progress" => "In Progress",
-  "contacted" => "Contacted nothing happened",
-  "resolved" => "Resolved",
-  "resolved-comment" => "Resolved - attributed via comment");
+  'open' => 'Open',
+  'in_progress' => 'In Progress',
+  'contacted' => 'Contacted nothing happened',
+  'resolved' => 'Resolved',
+  'resolved-comment' => 'Resolved - attributed via comment', );
