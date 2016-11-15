@@ -47,7 +47,7 @@ piklist(
     ,'field' => 'original'
     ,'label' => __('Original Source', 'piklist-demo')
     ,'attributes' => array(
-      'wrapper_class' => 'case-link',      
+      'wrapper_class' => 'case-link',
       'placeholder' => 'Paste book title, article link, etc...'
     ),
     'required' => true,
@@ -59,26 +59,32 @@ piklist(
   ,'parent' => 0
   ));
 
-  foreach ($parents as $parent => $value) {
+  function choices($parent_cats){
+    $cats = [];
+    foreach ($parent_cats as $parent) {
+      $cats[$parent->name] = piklist(
+      get_terms('case_category', array(
+        'hide_empty' => false
+        ,'child_of' =>$parent->term_id
+      )), array(
+        'term_id','name'
+      ));
+    }
+    return $cats;
+  }
+  // var_dump(choices($parents));
+
     piklist('field', array(
-      'type' => 'checkbox',
+      'type' => 'select',
       'scope' => 'taxonomy',
       'field' => 'case_category',
-      'label' => $value->name,
+      'label' => 'Category',
       'attributes' => array(
         'class' => 'form-control'
       ),
-      'choices' => piklist(
-      get_terms('case_category', array(
-        'hide_empty' => false
-        ,'child_of' =>$value->term_id
-      )), array(
-        'term_id','name'
-      )
-    ),
+      'choices' => choices($parents),
     'required' => true,
     ));
-  }
 
 
   piklist('field', array(
