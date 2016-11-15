@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.1.10
+Version: 0.1.11
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -262,6 +262,15 @@ function wpmystics_assign_parent_terms($post_id, $post)
             wp_set_post_terms($post_id, array($term->parent), 'case_category', true);
             $term = get_term($term->parent, 'case_category');
         }
+    }
+
+    //check if they have meta fields
+    if(!get_post_meta($post_id, 'original')){
+      $sources = array('eBook', 'article', 'blog post', 'book', 'video', 'audio');
+      add_post_meta($post_id, 'original', $sources[rand(0,5)]);
+    }
+    if(!get_post_meta($post_id, 'assigned_user')){
+      add_post_meta($post_id, 'assigned_user', rand(1,7));
     }
 }
 
