@@ -313,7 +313,7 @@ function wpmystics_quick_insert()
     );
     echo get_the_permalink($post_id);
     // clean_post_cache($post_id);
-    // add_post_meta( $post_id, 'owner', '', true );
+    // add_post_meta( $post_id, 'assigned_user', '', true );
     // redirect_post($post_id);
     die();
 }

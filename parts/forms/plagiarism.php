@@ -100,8 +100,8 @@ piklist('field', array(
 
 piklist('field', array(
 	'type' => 'select',
-	'field' => 'owner',
-	'label' => 'Owner: ',
+	'field' => 'assigned_user',
+	'label' => 'Assigned User: ',
 	'choices' => array( 'no-owner' => 'None', $current_user->display_name => $current_user->display_name ), //$users_names ),
 	'required' => 'true',
 	'scope' => 'post_meta'

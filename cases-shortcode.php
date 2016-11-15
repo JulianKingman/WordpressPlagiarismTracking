@@ -79,7 +79,7 @@ $current_user = wp_get_current_user();
   <tr>
     <th>ID</th>
     <th>Status</th>
-    <th>Owner</th>
+    <th>Assigned to</th>
     <th>Category</th>
     <th>Links</th>
     <th>Date</th>

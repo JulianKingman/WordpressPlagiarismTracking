@@ -29,19 +29,19 @@
         <header>
           <h3>Plagiarism case <?php echo get_the_ID() ?></h3>
         </header>
-          
+
           <table class="plagiarism-single-case">
           <tr>
             <td class='first-row-single-case'>Copied link</td>
             <td><?php
-              $cl = get_the_title( get_the_ID() ); 
+              $cl = get_the_title( get_the_ID() );
               printf('<a href="http://%s" target="_blank">%s</a>', $cl, $cl);
             ?></td>
           </tr>
 
           <tr>
             <td class='first-row-single-case'>Original link</td>
-            <td><?php 
+            <td><?php
               $ol = get_post_meta(get_the_ID(), 'original', true);
               printf('<a href="http://%s" target="_blank">%s</a>', $ol, $ol);
             ?></td>
@@ -58,7 +58,7 @@
           </tr>
 
           <tr>
-            <td class='first-row-single-case'>Owner</td>
+            <td class='first-row-single-case'>Assigned to</td>
             <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
           </tr>
 
@@ -104,7 +104,7 @@
               <?php dynamic_sidebar('right-sidebar'); ?>
         </div>
         <?php } ?>
-        
+
       </div><!-- /row -->
       </div> <!-- /container -->
   </div><!-- /ww -->
