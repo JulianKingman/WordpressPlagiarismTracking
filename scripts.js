@@ -10,6 +10,13 @@ jQuery(document).ready(function($) {
 	    paging: true
 	  } );
 
+    $('#wpt-search-shortcode-wrapper').submit(function(e){
+      e.preventDefault();
+      var data = $(e.target).serialize();
+      var url = $('#wpt-search-shortcode-wrapper').data('url');
+      window.location.replace(url + data);
+    });
+
     $(".wordpressplagiarismtracking-quick-insert-widget").submit(function(e) {
         console.log('submit clicked');
         e.preventDefault();
