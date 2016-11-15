@@ -79,11 +79,9 @@
   padding: 0px 5px;
 }
 
-.plagiarism-single-case td,
-.plagiarism-single-case th {
-  border: 1px solid #B1BCC4;
-  padding: 5px 10px;
-  vertical-align: top;
+.plagiarism-single-case table.dataTable thead th, 
+.plagiarism-single-case table.dataTable thead td {
+  display: none;
 }
 
 #DataTables_Table_0_length{

@@ -3,12 +3,20 @@
 jQuery(document).ready(function($) {
     console.log('script loaded');
 
-		$('.plagiarism-cases-table').DataTable( {
+	$('.plagiarism-cases-table').DataTable( {
 	    searching: false,
 	    ordering: true,
 	    pageLength: 25,
 	    paging: true
 	  } );
+
+    $('.plagiarism-single-case').DataTable( {
+        searching: false,
+        ordering: false,
+        pageLength: 10,
+        paging: false,
+        info: false
+      } );
 
     $('.wordpressplagiarismtracking-search-case-widget').submit(function(e){
       e.preventDefault();

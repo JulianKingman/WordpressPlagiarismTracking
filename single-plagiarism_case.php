@@ -30,7 +30,7 @@
           <h3>Plagiarism case <?php echo get_the_ID() ?></h3>
         </header>
 
-          <table class="plagiarism-single-case">
+          <table class="plagiarism-single-case stripe"><thead><tr><td></td><td></td></tr></thead><tbody>
           <tr>
             <td class='first-row-single-case'>Copied link</td>
             <td><?php
@@ -84,7 +84,7 @@
             <td class='first-row-single-case'>Description</td>
             <td><?php the_content(); ?></td>
           </tr>
-        </table>
+        </tbody></table>
         <?php comments_template( ); ?>
       </div><!-- /col-sm-12 -->
     </div><!-- /row -->
