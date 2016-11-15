@@ -46,8 +46,16 @@
 
 /* shortcode buttons to quickly display certain cases */
 .quick-actions {
-  margin-bottom: 20px;
+  margin: 25px 0;
 }
+
+.quick-actions .btn-default {
+  margin-right: 10px;
+  padding: 10px 15px;
+  color: #777;
+}
+
+/*
 .quick-actions li {
     background-color: #f8f8f8;
     border: 1px solid #b1bcc4;
@@ -67,7 +75,7 @@
 .quick-actions li a:hover {
   color: inherit;
 }
-
+*/
 .quick-actions h4{
   clear: left;
 }
