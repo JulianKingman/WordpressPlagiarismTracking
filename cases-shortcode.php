@@ -57,7 +57,7 @@ $current_user = wp_get_current_user();
 <div class="quick-actions">
   <!--<h4>Quick actions</h4>-->
   <ul>
-  <li><a href="<?php echo get_site_url() . '?owner=' . $current_user->ID; ?>">Show cases assigned to me</a></li>
+  <li><a href="<?php echo get_site_url() . '?status=in_progress&owner=' . $current_user->ID; ?>">Show cases assigned to me</a></li>
   <li><a href="<?php echo get_site_url() . '?status=open'; ?>">Show all open cases</a></li>
   </ul>
   <h4>Results</h4>
