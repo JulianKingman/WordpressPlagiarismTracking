@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
   <div id="wrapper">
-      <div class="container pt">
+      <div class="container">
       <div class="row">
         <div class="col-sm-9">
 
@@ -23,7 +23,7 @@
 
 <?php else : ?>
   <div id="wrapper">
-      <div class="container pt">
+      <div class="container">
       <div class="row">
         <div class="col-sm-9">
         <header>

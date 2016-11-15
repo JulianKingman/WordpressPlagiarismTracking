@@ -35,6 +35,7 @@ piklist(
     ,'label' => __('Link', 'piklist-demo')
     ,'attributes' => array(
       'wrapper_class' => 'case-link',
+      'class' => 'form-control',     
       'placeholder' => 'Paste link to copied material here...'
     ),
     'required' => true,
@@ -48,6 +49,7 @@ piklist(
     ,'label' => __('Original Source', 'piklist-demo')
     ,'attributes' => array(
       'wrapper_class' => 'case-link',
+      'class' => 'form-control',
       'placeholder' => 'Paste book title, article link, etc...'
     ),
     'required' => true,
@@ -61,6 +63,7 @@ piklist(
 
   function choices($parent_cats){
     $cats = [];
+    $cats[''] = array( '' => 'Select a Category');
     foreach ($parent_cats as $parent) {
       $cats[$parent->name] = piklist(
       get_terms('case_category', array(
@@ -94,6 +97,7 @@ piklist(
     ,'label' => __('Notes', 'piklist-demo')
     ,'attributes' => array(
       'wrapper_class' => 'case-link',
+      'class' => 'form-control',
       'placeholder' => 'Write notes about the link here'
     )
   ));

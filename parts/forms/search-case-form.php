@@ -9,6 +9,7 @@ Logged in: true
 // load plagiarism_case statuses from the plugin file
 global $cpt_statuses;
 
+
 // ------------------------------------------------------- \\
 //                  The form
 // ------------------------------------------------------- \\
@@ -30,7 +31,8 @@ global $cpt_statuses;
     ,'field' => 'link'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
-      'placeholder' => 'Link'
+      'class' => 'form-control',   
+      'placeholder' => 'Link...'
     )
 
   ));
@@ -42,33 +44,52 @@ global $cpt_statuses;
     'field' => 'status',      // unsure
     'attributes' => array(
       'wrapper_class' => 'case-search',
+      'class' => 'form-control'      
     ),
     'choices' => array_merge( array('' => 'Status'), $cpt_statuses)
   ));
 
 // category
+  $main_cats = get_terms(array(
+  'taxonomy' => 'case_category'
+  ,'hide_empty' => false
+  ,'parent' => 0
+  ));
+
+  function sub_cats($parent_cats){
+    $cats = [];
+    $cats[''] = array( '' => 'Category');
+    foreach ($parent_cats as $parent) {
+      $cats[$parent->name] = piklist(
+      get_terms('case_category', array(
+        'hide_empty' => false
+        ,'child_of' =>$parent->term_id
+      )), array(
+        'term_id','name'
+      ));
+    }
+    return $cats;
+  }
+
   piklist('field', array(
     'type' => 'select'
  //   ,'scope' => 'post_term' // post_status is in the wp_posts
     ,'field' => 'category'
     ,'attributes' => array(
+      //'class' => 'form-control',
       'wrapper_class' => 'case-search',
+      'class' => 'form-control'
     ),
-    'choices' => array( '' => 'Category' )
-      + piklist(get_terms(
-        array(
-          'taxonomy' => 'case_category',
-          'hide_empty' => false,
-        )
-    ),array( 'term_id', 'name' ) )
+    'choices' => sub_cats($main_cats)
   ));
 
-//owner
+//Owner
 piklist('field', array(
   'type' => 'select',
 //  'scope' => 'post_meta',
   'field' => 'owner',
   'attributes' => array(
+      'class' => 'form-control',   
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
