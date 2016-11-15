@@ -37,7 +37,10 @@ jQuery(document).ready(function($) {
         },
 					success: function(data){
 						console.log(data);
-						window.location.replace(data);
+            //timeout to make sure the page exists
+            setTimeout(function(){
+              window.location.replace(data);
+            }, 200)
 					}
 				})
         // $.ajax({type: "GET",
