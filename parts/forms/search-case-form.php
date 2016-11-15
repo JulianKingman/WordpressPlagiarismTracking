@@ -89,7 +89,7 @@ piklist('field', array(
    )
 ));
 
-// Author
+/* Author
   piklist('field', array(
     'type' => 'select'
  //   ,'scope' => 'post' // post_status is in the wp_posts
@@ -114,7 +114,7 @@ piklist('field', array(
     )
    )
 ));
-
+*/
 // Search button
 piklist('field', array(
   'type' => 'submit',
