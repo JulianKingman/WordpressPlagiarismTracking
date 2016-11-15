@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.1.20
+Version: 0.1.21
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -346,7 +346,7 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
       ,'rewrite' => array(
         'slug' => 'plagiarism-case',
       )
-      ,'capability_type' => 'post'
+      ,'capability_type' => array('post', 'plagiarism_case')
       ,'edit_columns' => array(
         'title' => __('Link')
         ,'author' => __('Entered by'),
@@ -386,6 +386,49 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
 
       return $post_types;
   }
+
+
+// --------------------------------------------------------------------------
+// Custom role for plagiarism_case post type
+// --------------------------------------------------------------------------
+# /wp-content/themes/theme_name/functions.php
+# Give Administrators and Editors All Testimonial Capabilities
+function wpt_add_plagiarism_case_caps_to_admin() {
+  $admin_caps = array(
+    'read_private_plagiarism_cases',
+    'edit_others_plagiarism_cases',
+    'delete_others_plagiarism_cases',
+  );
+  $user_caps = array(
+    'read',
+    'read_plagiarism_case',
+    'publish_plagiarism_cases',
+    'edit_plagiarism_cases',
+    'edit_private_plagiarism_cases',
+    'edit_published_plagiarism_cases',
+    'delete_plagiarism_cases',
+    'delete_private_plagiarism_cases',
+    'delete_published_plagiarism_cases',
+  );
+  $admin_roles = array(
+    get_role( 'administrator' ),
+    get_role( 'editor' ),
+  );
+  $user_roles = array(
+    get_role( 'subscriber' ),
+  );
+  foreach ($admin_roles as $role) {
+    foreach (array_merge($admin_caps, $user_caps) as $cap) {
+      $role->add_cap( $cap );
+    }
+  }
+  foreach ($user_roles as $role) {
+    foreach (array_merge($admin_caps, $user_caps) as $cap) {
+      $role->add_cap( $cap );
+    }
+  }
+}
+add_action( 'after_setup_theme', 'wpt_add_plagiarism_case_caps_to_admin' );
 
 // ----------------------------------------------------------------------------
 // custom post plagiarism_case statuses var
