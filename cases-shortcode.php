@@ -14,12 +14,16 @@ function cases_shortcode()
 
     $link = $_GET['link'];
     $status = $_GET['status'];
-    $cat_id = $_GET['category'];
-    $owner_id = $_GET['owner'];
-    //$submitter_id = $_GET['submitter'];
 
+    $cat_id = $_GET['category'];
+    $cat_name = $cat_id !== '' ? get_term( $cat_id, 'case_category' ) : '';
+    $cat_name = $cat_name->name;
+
+    $owner_id = $_GET['owner'];
     $owner_name = $user_table[$owner_id];
-    $submitter_name = $user_table[$submitter_id];
+
+    //$submitter_id = $_GET['submitter'];
+    //$submitter_name = $user_table[$submitter_id];
     ?>
 <!--for debugging only
   Search options:
@@ -62,6 +66,20 @@ $current_user = wp_get_current_user();
 </div>
 
 <h4>Results</h4>
+<div class="wpt-search-terms">
+  <?php
+  function wrap($key, $value){
+    return sprintf("<div class='wpt-search-term-item'>%s: <i>%s</i></div>", $key, $value);
+  }
+      $atts = '';
+      if ( $link != '' ) $atts .= wrap('Link', $link);
+      if ( $status != '' ) $atts .= wrap('Status', $status);
+      if ( $cat_name != '' ) $atts .= wrap('Category', $cat_name);
+      if ( $owner_name != '' ) $atts .= wrap('Owner', $owner_name);
+      echo $atts;
+  ?>
+
+</div>
 <?php
 // ---------------------------------------------------------------------
 // The loop, query and display plagiarism cases

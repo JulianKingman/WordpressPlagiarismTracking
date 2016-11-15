@@ -27,7 +27,6 @@ global $cpt_statuses;
 //link
   piklist('field', array(
     'type' => 'text'
-    ,'scope' => 'plagiarism_case' // cpt
     ,'field' => 'link'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
