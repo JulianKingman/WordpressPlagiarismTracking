@@ -39,6 +39,7 @@ function cases_shortcode()
                  'post_status' => $status,                 // optional filter for status
                  'meta_value' => $owner_id,               // owner value
                  'author' => $submitter_id,            // optional filter for submitter
+                 'posts_per_page' => '-1'
   );
     if ($cat_id != '') {
         $args['tax_query'] = array(array(
