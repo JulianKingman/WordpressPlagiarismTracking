@@ -33,19 +33,29 @@
   display: table;
   width: 100%;
   text-align: center;
-  border-radius: 0.6em;
+  border-radius: 10px;
 }
 
 .piklist-notice-error p, 
 .piklist-notice-update p {
   display: table-cell;
   vertical-align: middle;
-  line-height: 3em;
+  line-height: 2em;
+  cursor: default;
 }
 
+/* shortcode buttons to quickly display certain cases */
 .quick-actions {
-  margin-bottom: 20px;
+  margin: 25px 0;
 }
+
+.quick-actions .btn-default {
+  margin-right: 10px;
+  padding: 10px 15px;
+  color: #777;
+}
+
+/*
 .quick-actions li {
     background-color: #f8f8f8;
     border: 1px solid #b1bcc4;
@@ -65,10 +75,12 @@
 .quick-actions li a:hover {
   color: inherit;
 }
-
+*/
 .quick-actions h4{
   clear: left;
 }
+
+/* Shortcode table styles*/
 
 .plagiarism-cases-table td,
 .plagiarism-cases-table th {
@@ -103,4 +115,8 @@
   height: 15px;
   margin-right: 15px;
   float: left;
+}
+
+.form-control{
+  padding: 2px 12px !important;
 }
