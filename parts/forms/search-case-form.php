@@ -3,7 +3,6 @@
 Title: Search Case Form
 Method: get
 Message: Search successfully
-Redirect: /plagiarism-case/
 Logged in: true
 */
 
@@ -27,7 +26,7 @@ global $cpt_statuses;
 //link
   piklist('field', array(
     'type' => 'text'
- //   ,'scope' => 'post' // post_title is in the wp_posts
+    ,'scope' => 'plagiarism_case' // cpt
     ,'field' => 'link'
     ,'attributes' => array(
       'wrapper_class' => 'case-search',
@@ -64,6 +63,7 @@ global $cpt_statuses;
     ),array( 'term_id', 'name' ) )
   ));
 
+//owner
 piklist('field', array(
   'type' => 'select',
 //  'scope' => 'post_meta',

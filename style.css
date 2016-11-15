@@ -43,6 +43,10 @@
   line-height: 3em;
 }
 
+.quick-actions {
+  margin-bottom: 20px;
+}
+
 .plagiarism-cases-table td,
 .plagiarism-cases-table th {
   border: 1px solid #B1BCC4;

@@ -2,6 +2,11 @@
 // Add Shortcode
 function cases_shortcode()
 {
+// ---------------------------------------------------------------------
+// Setting vars and pre-processing
+// ---------------------------------------------------------------------
+    $intro_text = 'Defending the light, one case at the time<br><br>';
+
     $user_table = piklist(get_users(
     array(
       'orderby' => 'display_name', 'order' => 'asc',
@@ -45,11 +50,32 @@ function cases_shortcode()
                                    ));
     };
 
-  // Variable to call WP_Query.
+// intro
+echo $intro_text;
+
+// ---------------------------------------------------------------------
+// Add quick actions
+// ---------------------------------------------------------------------
+
+$current_user = wp_get_current_user();
+?>
+
+<div class="quick-actions">
+  <h4>Quick actions</h4>
+  <ul>
+  <li><a href="<?php echo get_site_url() . '?owner=' . $current_user->ID; ?>">Show my assigned cases</a></li>
+  <li><a href="<?php echo get_site_url() . '?status=open'; ?>">Show all open cases</a></li>
+  </ul>
+</div>
+
+<?php
+// ---------------------------------------------------------------------
+// The loop, query and display plagiarism cases
+// ---------------------------------------------------------------------
+
   $the_query = new WP_Query($args);
   //$the_query = new WP_Query( );
   if ($the_query->have_posts()) :
-
   // Start the Loop
 ?>
   <table class="plagiarism-cases-table">

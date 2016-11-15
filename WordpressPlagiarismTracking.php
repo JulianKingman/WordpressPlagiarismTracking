@@ -3,7 +3,7 @@
 Plugin Name: Plagiarism Administration Tools
 Plugin URI:
 Description: A simple issue tracker for tracking and following up on plagiarism
-Version: 0.1.6
+Version: 0.1.7
 Author: Mystics
 Author URI: https://github.com/JulianKingman
 License: none
@@ -67,12 +67,23 @@ function add_cpt_comment_support()
     add_post_type_support('plagiarism_case', 'comments');
 }
 
-// ----------------------------------------------------------------------------
-// By default allow comments on plagiarism single case pages
-// ----------------------------------------------------------------------------
-add_filter( 'piklist_add_part', 'mcw_form_redirect', 10, 2 );
 
+
+//add_action( 'piklist_save_field-connect_resource_to_step', 'plagiarism_case', 10, 1 );
+function plagiarism_case( $fields ) {
+// Manually do some awesomeness
+  wp_redirect( 'http://localhost/case-tracker' );
+  exit;
+}
+
+// ----------------------------------------------------------------------------
+// Redirect try but unsuccesfull
+// ----------------------------------------------------------------------------
+//add_filter( 'piklist_add_part', 'mcw_form_redirect', 10, 2 );
 function mcw_form_redirect ( $data, $type ) {
+  return 'stuff';
+    wp_redirect( 'http://localhost/case-tracker' );
+  exit;
   // if not a form then bail
   if ( $type != 'form' ) {
     return $data;
@@ -83,6 +94,31 @@ function mcw_form_redirect ( $data, $type ) {
   }
   return $data;
 }
+
+// this seems to be working as for the redirect :), needs a little more work
+
+//add_action( 'piklist_save_field-post', 'my_grab_new_post_id' );
+function my_grab_new_post_id( $fields ) {
+//  global $mcw_new_post_id;
+  //$my_new_post_id = $fields['ID']['object_id'];
+}
+
+// only is fired when a link is clicked, not a form posts with get
+// also top menu links are excluded
+//add_filter( 'wp_redirect', 'clean_search_url' , 1, 2);
+function clean_search_url( $location, $status ) {
+  if ( strpos( $location, '?') === FALSE ) {          // not get request was submitted, return location
+      return $location;
+  }
+  else {                                              // URL includes GET, correct url
+    $get_parms = substr( $location, strpos($location, '?') );
+    return 'localhost/case-tracker/' . $get_parms;
+  }
+}
+
+
+
+
 
 // ----------------------------------------------------------------------------
 // Post type templates
