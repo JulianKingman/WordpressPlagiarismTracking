@@ -6,7 +6,8 @@ jQuery(document).ready(function($) {
 		$('.plagiarism-cases-table').DataTable( {
 	    searching: false,
 	    ordering: true,
-	    pageLength: 10,
+	    pageLength: 25,
+	    paging: true
 	  } );
 
     $(".wordpressplagiarismtracking-quick-insert-widget").submit(function(e) {

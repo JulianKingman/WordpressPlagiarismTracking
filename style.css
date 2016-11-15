@@ -46,10 +46,33 @@
 .quick-actions {
   margin-bottom: 20px;
 }
+.quick-actions li {
+    background-color: #f8f8f8;
+    border: 1px solid #b1bcc4;
+    border-radius: 5px;
+    clear: right;
+    color: #c2862d;
+    float: left;
+    line-height: 2.5em;
+    margin: 10px 20px 20px 0;
+    padding: 5px 20px;
+}
+
+.quick-actions li:hover {
+  background-color: #fafafc;
+}
+
+.quick-actions li a:hover {
+  color: inherit;
+}
+
+.quick-actions h4{
+  clear: left;
+}
 
 .plagiarism-cases-table td,
 .plagiarism-cases-table th {
-  border: 1px solid #B1BCC4;
+  /*border-bottom: 1px solid #B1BCC4;*/
   padding: 0px 5px;
 }
 
@@ -58,6 +81,10 @@
   border: 1px solid #B1BCC4;
   padding: 5px 10px;
   vertical-align: top;
+}
+
+#DataTables_Table_0_length{
+  display: none;
 }
 
 .first-row-single-case{

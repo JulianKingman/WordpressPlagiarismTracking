@@ -35,7 +35,7 @@ piklist(
     ,'label' => __('Link', 'piklist-demo')
     ,'attributes' => array(
       'wrapper_class' => 'case-link',
-      'placeholder' => 'Paste link here...'
+      'placeholder' => 'Paste link to copied material here...'
     ),
     'required' => true,
   ));
@@ -47,7 +47,8 @@ piklist(
     ,'field' => 'original'
     ,'label' => __('Original Source', 'piklist-demo')
     ,'attributes' => array(
-      'placeholder' => 'Paste the book title, article link, etc...'
+      'wrapper_class' => 'case-link',      
+      'placeholder' => 'Paste book title, article link, etc...'
     ),
     'required' => true,
   ));

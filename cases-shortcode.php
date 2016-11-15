@@ -5,8 +5,6 @@ function cases_shortcode()
 // ---------------------------------------------------------------------
 // Setting vars and pre-processing
 // ---------------------------------------------------------------------
-    $intro_text = 'Defending the light, one case at the time<br><br>';
-
     $user_table = piklist(get_users(
     array(
       'orderby' => 'display_name', 'order' => 'asc',
@@ -18,7 +16,7 @@ function cases_shortcode()
     $status = $_GET['status'];
     $cat_id = $_GET['category'];
     $owner_id = $_GET['owner'];
-    $submitter_id = $_GET['submitter'];
+    //$submitter_id = $_GET['submitter'];
 
     $owner_name = $user_table[$owner_id];
     $submitter_name = $user_table[$submitter_id];
@@ -50,22 +48,19 @@ function cases_shortcode()
                                    ));
     };
 
-// intro
-echo $intro_text;
-
 // ---------------------------------------------------------------------
 // Add quick actions
 // ---------------------------------------------------------------------
-
 $current_user = wp_get_current_user();
 ?>
 
 <div class="quick-actions">
-  <h4>Quick actions</h4>
+  <!--<h4>Quick actions</h4>-->
   <ul>
-  <li><a href="<?php echo get_site_url() . '?owner=' . $current_user->ID; ?>">Show my assigned cases</a></li>
+  <li><a href="<?php echo get_site_url() . '?owner=' . $current_user->ID; ?>">Show cases assigned to me</a></li>
   <li><a href="<?php echo get_site_url() . '?status=open'; ?>">Show all open cases</a></li>
   </ul>
+  <h4>Results</h4>
 </div>
 
 <?php
@@ -78,7 +73,7 @@ $current_user = wp_get_current_user();
   if ($the_query->have_posts()) :
   // Start the Loop
 ?>
-  <table class="plagiarism-cases-table">
+  <table class="plagiarism-cases-table stripe">
   <thead>
   <tr>
     <th>ID</th>
@@ -87,7 +82,7 @@ $current_user = wp_get_current_user();
     <th>Category</th>
     <th>Links</th>
     <th>Date</th>
-    <th>Submitter</th>
+    <!--<th>Submitter</th>-->
     <th>Go</th>
   </tr>
   </thead>
@@ -131,8 +126,7 @@ $current_user = wp_get_current_user();
     ?></td>
 
       <!-- Author -->
-      <td><?php the_author();
-    ?></td>
+      <!--<td><?php //the_author(); ?></td>-->
       <td><?php the_shortlink('view');
     ?></td>
     </tr>
