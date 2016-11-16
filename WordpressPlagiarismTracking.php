@@ -346,7 +346,8 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
       ,'rewrite' => array(
         'slug' => 'plagiarism-case',
       )
-      ,'capability_type' => array('post', 'plagiarism_case')
+      ,'capability_type' => array('plagiarism_case', 'plagiarism_cases')
+      ,'map_meta_cap' => true
       ,'edit_columns' => array(
         'title' => __('Link')
         ,'author' => __('Entered by'),
@@ -395,20 +396,23 @@ add_filter('piklist_post_types', 'wpmystics_create_post_type');
 # Give Administrators and Editors All Testimonial Capabilities
 function wpt_add_plagiarism_case_caps_to_admin() {
   $admin_caps = array(
-    'read_private_plagiarism_cases',
     'edit_others_plagiarism_cases',
     'delete_others_plagiarism_cases',
   );
   $user_caps = array(
-    'read',
-    'read_plagiarism_case',
-    'publish_plagiarism_cases',
     'edit_plagiarism_cases',
-    'edit_private_plagiarism_cases',
-    'edit_published_plagiarism_cases',
+    'read_plagiarism_case',
+    'delete_plagiarism_case',
+    'edit_plagiarism_cases',
+    'publish_plagiarism_cases',
+    'read_private_plagiarism_cases',
+    'read',
     'delete_plagiarism_cases',
     'delete_private_plagiarism_cases',
     'delete_published_plagiarism_cases',
+    'edit_private_plagiarism_cases',
+    'edit_published_plagiarism_cases',
+    'create_plagiarism_cases',
   );
   $admin_roles = array(
     get_role( 'administrator' ),
@@ -416,17 +420,18 @@ function wpt_add_plagiarism_case_caps_to_admin() {
   );
   $user_roles = array(
     get_role( 'subscriber' ),
+    get_role( 'contributor' ),
   );
   foreach ($admin_roles as $role) {
     foreach (array_merge($admin_caps, $user_caps) as $cap) {
       $role->add_cap( $cap );
     }
-  }
-  foreach ($user_roles as $role) {
-    foreach (array_merge($admin_caps, $user_caps) as $cap) {
+  };
+  foreach($user_roles as $role){
+    foreach ($user_caps as $cap) {
       $role->add_cap( $cap );
     }
-  }
+  };
 }
 add_action( 'after_setup_theme', 'wpt_add_plagiarism_case_caps_to_admin' );
 

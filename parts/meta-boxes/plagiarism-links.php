@@ -2,6 +2,7 @@
 /*
 Title: Plagiarism source link
 Post Type: plagiarism_case
+Capability: edit_plagiarism_cases
 */
 /*
 piklist('field', array(
@@ -15,7 +16,8 @@ piklist('field', array(
 	'type' => 'text',
 	'field' => 'original',
 	'label' => 'Original link: ',
-	'help' => 'Link to the article, book or page that is plagiarised'
+	'help' => 'Link to the article, book or page that is plagiarised',
+	'capability' => 'edit_plagiarism_cases'
 //	'required' => 'true',
 ));
 
