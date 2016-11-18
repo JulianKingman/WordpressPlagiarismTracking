@@ -42,8 +42,17 @@
           <tr>
             <td class='first-row-single-case'>Original link</td>
             <td><?php
+              // check for link or other (if http:// or www. is present)
+              function is_url($str){
+                if( stripos( $str, 'www.') !== FALSE ) return TRUE;
+                elseif ( stripos( $str, 'http://') !== FALSE ) return TRUE;
+                else return FALSE;   
+              }
+
               $ol = get_post_meta(get_the_ID(), 'original', true);
-              printf('<a href="http://%s" target="_blank">%s</a>', $ol, $ol);
+              if ( is_url( $ol ) ) printf('<a href="http://%s" target="_blank">%s</a>', $ol, $ol);
+              else echo $ol;              
+             
             ?></td>
           </tr>
 
