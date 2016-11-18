@@ -5,7 +5,6 @@
       <div class="row">
         <div class="col-sm-9">
 
-
 <?php
   $user_table = piklist(get_users(
     array(
@@ -26,6 +25,7 @@
       <div class="container">
       <div class="row">
         <div class="col-sm-9">
+
         <header>
           <h3>Plagiarism case <?php echo get_the_ID() ?></h3>
         </header>
