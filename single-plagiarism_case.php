@@ -58,7 +58,7 @@
           </tr>
 
           <tr>
-            <td class='first-row-single-case'>Assigned to</td>
+            <td class='first-row-single-case'>Assigned User</td>
             <td><?php echo $user_table[get_post_meta(get_the_ID(), 'assigned_user', true)]; ?></td>
           </tr>
 

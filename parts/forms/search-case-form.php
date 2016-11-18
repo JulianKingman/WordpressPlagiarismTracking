@@ -92,7 +92,7 @@ piklist('field', array(
       'wrapper_class' => 'case-search',
     ),
   'choices' => array(
-     '' => 'Owner'
+     '' => 'Assigned User'
    )
    + piklist(
     get_users(

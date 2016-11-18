@@ -95,7 +95,7 @@ $current_user = wp_get_current_user();
   <tr>
     <th>ID</th>
     <th>Status</th>
-    <th>Assigned to</th>
+    <th>Assigned User</th>
     <th>Category</th>
     <th>Links</th>
     <th>Date</th>
